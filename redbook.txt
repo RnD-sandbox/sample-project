@@ -1,0 +1,3827 @@
+Front cover
+
+SAP HANA on IBM Power
+Systems Virtual Servers:
+Hybrid Cloud Solution
+Tim Simon
+Dino Quintero
+Neelabha Banerjee
+Christopher Chung
+Edmund Haefele
+Mark Short
+
+Redpaper
+
+IBM Redbooks
+SAP HANA on IBM Power Systems Virtual Servers:
+Hybrid Cloud Solution
+April 2023
+
+REDP-5693-00
+
+Note: Before using this information and the product it supports, read the information in “Notices” on page v.
+
+First Edition (April 2023)
+This edition applies to:
+SAP HANA 2.0 SPS06
+SAP S/4HANA 2022 Release
+Red Hat Enterprise Linux 8.4
+SUSE Linux Enterprise Server for SAP Applications 15 SP4
+© Copyright International Business Machines Corporation 2023. All rights reserved.
+Note to U.S. Government Users Restricted Rights -- Use, duplication or disclosure restricted by GSA ADP Schedule
+Contract with IBM Corp.
+
+Contents
+Chapter 1. Hybrid cloud overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1
+1.1 Introduction to cloud . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+1.2 Cloud computing defined . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+1.2.1 Five essential characteristics of cloud computing . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+1.2.2 Cloud computing services . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+1.2.3 Types of cloud computing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+1.2.4 General cloud concepts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+1.3 Different cloud providers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+1.3.1 Amazon Web Services . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+1.3.2 Microsoft Azure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+1.3.3 Google Cloud . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+1.3.4 Alibaba Cloud . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+1.3.5 IBM Hybrid Cloud . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+1.4 Reference architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+1.5 Key differentiators of IBM Cloud . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+1.5.1 Scalability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+1.5.2 Location access . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+1.5.3 Cloud security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+1.5.4 Long-lasting relationship . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+1.5.5 Leveraging innovation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+1.5.6 Multicloud and open source flexibility . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+1.5.7 Price . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+1.6 Use cases . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+1.7 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+1.8 SAP and cloud computing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+1.8.1 SAP HANA . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+1.8.2 SAP S/4HANA . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+1.8.3 SAP Business Technology Platform . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17
+1.8.4 RISE with SAP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 19
+1.8.5 SAP Cloud Solutions. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+1.9 IBM Power solutions for SAP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
+1.9.1 IBM PowerVS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+Chapter 2. Architecture for SAP solutions in IBM Power Virtual Server . . . . . . . . . . . 33
+2.1 Choosing SAP on IBM PowerVS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 34
+2.2 SAP applications on IBM PowerVS. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 35
+2.2.1 SAP HANA . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 35
+2.2.2 SAP applications other than SAP HANA. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 37
+2.3 Architectural details . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 38
+2.3.1 Distributed architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 38
+2.3.2 Network connectivity . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 41
+2.3.3 High availability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 44
+2.3.4 Disaster recovery . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 47
+2.3.5 Backup and recovery . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 50
+Chapter 3. Scenarios with IBM Power Systems Virtual Server. . . . . . . . . . . . . . . . . . . 55
+3.1 SAP system migration to IBM PowerVS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 56
+3.1.1 Lift and shift approach. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 57
+3.1.2 Changing the operating system and database . . . . . . . . . . . . . . . . . . . . . . . . . . . 58
+© Copyright IBM Corp. 2023.
+
+Contents
+
+iii
+
+3.1.3 Changing the SAP version and database . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 59
+3.1.4 Migrating to SAP HANA v2 on IBM Power . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 61
+3.2 Integration scenarios of SAP-provided solutions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 69
+3.2.1 Integrating SAP Business Technology Platform and SAP Cloud Connector . . . . 70
+3.2.2 SAP Integration Suite and SAP Process Orchestration . . . . . . . . . . . . . . . . . . . . 79
+3.2.3 Analytics Integration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 82
+3.2.4 Data Integration strategy. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 83
+3.3 Building and running regulated SAP workloads in IBM Cloud . . . . . . . . . . . . . . . . . . . 86
+
+iv
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+Notices
+This information was developed for products and services offered in the US. This material might be available
+from IBM in other languages. However, you may be required to own a copy of the product or product version in
+that language in order to access it.
+IBM may not offer the products, services, or features discussed in this document in other countries. Consult
+your local IBM representative for information on the products and services currently available in your area. Any
+reference to an IBM product, program, or service is not intended to state or imply that only that IBM product,
+program, or service may be used. Any functionally equivalent product, program, or service that does not
+infringe any IBM intellectual property right may be used instead. However, it is the user’s responsibility to
+evaluate and verify the operation of any non-IBM product, program, or service.
+IBM may have patents or pending patent applications covering subject matter described in this document. The
+furnishing of this document does not grant you any license to these patents. You can send license inquiries, in
+writing, to:
+IBM Director of Licensing, IBM Corporation, North Castle Drive, MD-NC119, Armonk, NY 10504-1785, US
+INTERNATIONAL BUSINESS MACHINES CORPORATION PROVIDES THIS PUBLICATION “AS IS”
+WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A
+PARTICULAR PURPOSE. Some jurisdictions do not allow disclaimer of express or implied warranties in
+certain transactions, therefore, this statement may not apply to you.
+This information could include technical inaccuracies or typographical errors. Changes are periodically made
+to the information herein; these changes will be incorporated in new editions of the publication. IBM may make
+improvements and/or changes in the product(s) and/or the program(s) described in this publication at any time
+without notice.
+Any references in this information to non-IBM websites are provided for convenience only and do not in any
+manner serve as an endorsement of those websites. The materials at those websites are not part of the
+materials for this IBM product and use of those websites is at your own risk.
+IBM may use or distribute any of the information you provide in any way it believes appropriate without
+incurring any obligation to you.
+The performance data and client examples cited are presented for illustrative purposes only. Actual
+performance results may vary depending on specific configurations and operating conditions.
+Information concerning non-IBM products was obtained from the suppliers of those products, their published
+announcements or other publicly available sources. IBM has not tested those products and cannot confirm the
+accuracy of performance, compatibility or any other claims related to non-IBM products. Questions on the
+capabilities of non-IBM products should be addressed to the suppliers of those products.
+Statements regarding IBM’s future direction or intent are subject to change or withdrawal without notice, and
+represent goals and objectives only.
+This information contains examples of data and reports used in daily business operations. To illustrate them
+as completely as possible, the examples include the names of individuals, companies, brands, and products.
+All of these names are fictitious and any similarity to actual people or business enterprises is entirely
+coincidental.
+COPYRIGHT LICENSE:
+This information contains sample application programs in source language, which illustrate programming
+techniques on various operating platforms. You may copy, modify, and distribute these sample programs in
+any form without payment to IBM, for the purposes of developing, using, marketing or distributing application
+programs conforming to the application programming interface for the operating platform for which the sample
+programs are written. These examples have not been thoroughly tested under all conditions. IBM, therefore,
+cannot guarantee or imply reliability, serviceability, or function of these programs. The sample programs are
+provided “AS IS”, without warranty of any kind. IBM shall not be liable for any damages arising out of your use
+of the sample programs.
+Notices
+
+v
+
+Trademarks
+IBM, the IBM logo, and ibm.com are trademarks or registered trademarks of International Business Machines
+Corporation, registered in many jurisdictions worldwide. Other product and service names might be
+trademarks of IBM or other companies. A current list of IBM trademarks is available on the web at “Copyright
+and trademark information” at http://www.ibm.com/legal/copytrade.shtml
+The following terms are trademarks or registered trademarks of International Business Machines Corporation,
+and might also be trademarks or registered trademarks in other countries.
+AIX®
+Aspera®
+Db2®
+Guardium®
+IBM®
+IBM Blockchain®
+IBM Cloud®
+IBM Cloud for Financial Services®
+
+IBM Cloud Satellite®
+IBM Consulting™
+IBM FlashSystem®
+IBM Garage™
+IBM Security®
+IBM Spectrum®
+IBM Watson®
+POWER®
+
+POWER8®
+PowerHA®
+PowerVM®
+Redbooks®
+Redbooks (logo)
+Satellite™
+
+®
+
+The following terms are trademarks of other companies:
+Intel, Intel logo, Intel Inside logo, and Intel Centrino logo are trademarks or registered trademarks of Intel
+Corporation or its subsidiaries in the United States and other countries.
+The registered trademark Linux® is used pursuant to a sublicense from the Linux Foundation, the exclusive
+licensee of Linus Torvalds, owner of the mark on a worldwide basis.
+Microsoft, and the Windows logo are trademarks of Microsoft Corporation in the United States, other
+countries, or both.
+Java, and all Java-based trademarks and logos are trademarks or registered trademarks of Oracle and/or its
+affiliates.
+OpenShift, Red Hat, are trademarks or registered trademarks of Red Hat, Inc. or its subsidiaries in the United
+States and other countries.
+Other company, product, or service names may be trademarks or service marks of others.
+
+vi
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+Preface
+This IBM Redpaper publication helps you install, tailor, and configure SAP HANA in your
+IBM Power® Virtual Server (IBM PowerVS) hybrid cloud environment. This paper first
+provides a high-level overview of hybrid cloud and then shows how you can integrate SAP
+services along with your SAP HANA instances into a hybrid cloud environment. This paper
+also presents the benefits of running your SAP HANA instance on IBM Power servers, either
+on-premises or in the cloud. This paper also describes the currently available options for
+running SAP HANA on IBM PowerVS servers and provides you with installation and migration
+scenarios to help you plan your SAP HANA installation on IBM PowerVS infrastructure.
+
+Authors
+This paper was produced by a team of specialists from around the world who work at IBM
+Redbooks, Austin Center.
+Tim Simon is a Redbooks® Project Leader in Tulsa, Oklahoma, USA. He has over 40 years
+of experience with IBM®, working primarily with customers to help them create IBM solutions
+to solve their business problems. Throughout his career, he has extensive experience
+creating customer solutions that use IBM Power, IBM Storage, and IBM zSystems. He holds a
+Bachelor of Science degree in Math from Towson University in Maryland.
+Dino Quintero is a Systems Technology Architect with IBM Redbooks. He has 28 years of
+experience with IBM Power technologies and solutions. Dino shares his technical computing
+passion and expertise by leading teams developing technical content in the areas of
+enterprise continuous availability, enterprise systems management, high-performance
+computing (HPC), cloud computing, artificial intelligence (including machine and deep
+learning), and cognitive solutions. He is a Certified Open Group Distinguished Technical
+Specialist. Dino holds a Master of Computing Information Systems degree and a Bachelor of
+Science degree in Computer Science from Marist College.
+Neelabha Banerjee has 20 years experience working as a Technical Architect for the SAP
+Practice in IBM Consulting™. For the last 18 years at IBM, he has been delivering and
+consulting for IBM clients across the globe. He has multiple SAP Certifications. His areas of
+expertise include SAP on Hybrid Cloud, SAP Implementation (Greenfield), SAP S/4HANA
+conversion (Brownfield), technical architecture design, SAP OS/DB Migration, SAP system
+consolidation, and SAP Upgrade. He holds a Bachelor of Technology degree in Computer
+Science & Engineering.
+Christopher Chung is a Senior Managing Consultant for IBM Technology Lifecycle Services
+Delivery Practice. Since 1996, Chris has provided onsite technical support and enablement.
+He has also provided porting for major ISVs that run on the IBM platform, such as PeopleSoft,
+Oracle, and SAP. Chris currently provides implementation and architecture solutions for the
+SAP landscape workload with Linux® distro, SUSE Linux Enterprise Server, and Red Hat®
+Enterprise Linux (RHEL), on IBM Power servers.
+Edmund Haefele is an expert in IT infrastructures in the SAP environment and has more
+than 25 years of experience in this field. He is part of the IBM Technology Engineering for
+SAP team and is certified as an IBM Architect Level 2 Expert. As an IT architect and
+specialist, he has worked on many projects for German and international clients. He has
+in-depth knowledge of IT systems such as SAP HANA, servers, storage, network
+
+Preface
+
+vii
+
+technologies, and high availability (HA), backup and restore, disaster recovery (DR), service
+management, and automation concepts. Edmund holds a diploma in physics and a PhD in
+natural sciences from the University of Heidelberg.
+Mark Short is the Lead Migration Consultant in IBM Technology Services’ Power Delivery
+Practice and has over 32 years of experience in the I/T industry. His areas of expertise
+include migrating enterprise resource planning software packages, large custom code
+systems, and large production databases to new IBM hardware environments.
+Thanks to the following people for their contributions to this project:
+Arnold Beilmann
+Lead Architect, SAP on IBM Power Hybrid Cloud, Walldorf, BW, Germany
+Graham Hardy
+Systems Architect, Technical Field Enablement for SAP on IBM Systems Boeblingen,
+BW, Germany
+Andreas Mueller
+Technical Consultant, IBM Technology Engineering for SAP Global Sales Boeblingen,
+BW, Germany
+Walter Orb
+Technical Consultant, IBM Technology Engineering for SAP Global Sales Walldorf, BW,
+Germany
+
+Now you can become a published author, too!
+Here is an opportunity to spotlight your skills, grow your career, and become a published
+author—all at the same time! Join an IBM Redbooks residency project and help write a book
+in your area of expertise, while honing your experience using leading-edge technologies. Your
+efforts will help to increase product acceptance and customer satisfaction, as you expand
+your network of technical contacts and relationships. Residencies run from two to six weeks
+in length, and you can participate either in person or as a remote resident working from your
+home base.
+Find out more about the residency program, browse the residency index, and apply online at:
+ibm.com/redbooks/residencies.html
+
+Comments welcome
+Your comments are important to us!
+We want our papers to be as helpful as possible. Send us your comments about this paper or
+other IBM Redbooks publications in one of the following ways:
+򐂰 Use the online Contact us review Redbooks form found at:
+ibm.com/redbooks
+򐂰 Send your comments in an email to:
+redbooks@us.ibm.com
+
+viii
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+򐂰 Mail your comments to:
+IBM Corporation, IBM Redbooks
+Dept. HYTD Mail Station P099
+2455 South Road
+Poughkeepsie, NY 12601-5400
+
+Stay connected to IBM Redbooks
+򐂰 Find us on LinkedIn:
+http://www.linkedin.com/groups?home=&gid=2130806
+򐂰 Explore new Redbooks publications, residencies, and workshops with the IBM Redbooks
+weekly newsletter:
+https://www.redbooks.ibm.com/Redbooks.nsf/subscribe?OpenForm
+򐂰 Stay current on recent Redbooks publications with RSS Feeds:
+http://www.redbooks.ibm.com/rss.html
+
+Preface
+
+ix
+
+x
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+1
+
+Chapter 1.
+
+Hybrid cloud overview
+Digital transformation and modernization of applications was already on the agenda of many
+enterprise businesses for many years and has recently been accelerated.
+According to a study of the IBM Institute for Business Value, 60% of executives are speeding
+up digital transformation during the pandemic1. As businesses continue their journey to cloud
+and evolve their infrastructures, decision makers recognize that a sole focus on public cloud
+does not fit with their business requirements. Flexible IT, hybrid cloud, and as-a-service gain
+increased importance for the enterprise businesses.
+This chapter provides a general overview about cloud technologies, and then discusses how
+SAP is integrating hybrid cloud solutions into their product line to support their customers.
+Included is discussion of the benefits of using IBM Power servers to run your SAP workloads,
+including SAP HANA. The final topics describe the IBM Power Virtual Server
+(IBM PowerVS) offering, profile that provides IBM Power servers in a cloud infrastructure and
+demonstrate how you can build an SAP HANA infrastructure on IBM PowerVS.
+The following topics are discussed in this chapter:
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+
+1
+
+1.1, “Introduction to cloud” on page 2
+1.2, “Cloud computing defined” on page 2
+1.3, “Different cloud providers” on page 5
+1.4, “Reference architecture” on page 6
+1.5, “Key differentiators of IBM Cloud” on page 7
+1.6, “Use cases” on page 12
+1.7, “Summary” on page 13
+1.8, “SAP and cloud computing” on page 14
+1.8, “SAP and cloud computing” on page 14
+1.9, “IBM Power solutions for SAP” on page 21
+
+https://www.ibm.com/thought-leadership/institute-business-value/report/covid-19-future-business
+
+© Copyright IBM Corp. 2023
+
+1
+
+1.1 Introduction to cloud
+Cloud is a method of computing. From the digital drive of a single person to the confidential
+data of a large bank, everything relies on data. This data must always be transported rapidly,
+efficiently, securely, and sometimes globally.
+Before cloud computing, each company, no matter how small or large, arranged their own
+private data center to store their data. However, data centers must be well-kept, constantly
+maintained, and regionally located to supply data quickly. This method was not only arduous
+and time-consuming for companies, but also maintaining another space was risky, expensive,
+and in many instances, negligent.
+Cloud computing, where the data of a company is maintained by an established cloud service
+provider that has branches globally, is the key to completing the digital transformation for any
+business.
+Similar to many other cloud service providers in the market, IBM Hybrid Cloud supplies
+customers with cloud computing capabilities. Hybrid cloud features can make disaster
+recovery, data backup, and business continuity easier and less expensive because the data
+can be mirrored across multiple sites globally, all hosted by the cloud provider.
+With the acquisition of Red Hat in 2018 and with a focus on artificial intelligence (AI) and
+Hybrid Cloud, IBM has now positioned itself as one of the leading contenders as an open,
+hybrid cloud provider.
+This chapter was created to provide customers and IBM teams with background knowledge
+about cloud, the cloud provider market, and IBM Hybrid Cloud. The goal is to deliver a
+general understanding about the different aspects of cloud computing, and most importantly,
+what makes IBM Hybrid Cloud different.
+
+1.2 Cloud computing defined
+Cloud computing is the on-demand access (by way of the internet) to computing resources,
+including servers, storage, databases, networking, software, analytics, and intelligence. This
+access typically is made possible over the internet (the cloud) and hosted at a remote data
+center. The data center is managed by a cloud service provider (CSP) to offer faster
+innovation, flexible resources, and economies of scale.
+
+1.2.1 Five essential characteristics of cloud computing
+Cloud computing features the following essential characteristics:
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+
+2
+
+On-demand self-service
+Broad network access
+Resource pooling
+Rapid elasticity
+Measured service
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+1.2.2 Cloud computing services
+The following types of cloud computing services are offered by cloud providers:
+򐂰 Software as a Service (SaaS)
+Application software that is hosted in the cloud and that you access and use by way of a
+web browser, a dedicated desktop client, or an API that integrates with your desktop or
+mobile operating system. This service is sometimes referred to as on-demand software.
+򐂰 Platform as a Service (PaaS)
+Provides software developers with an on-demand platform, which includes the hardware
+and software tools that are needed for running, developing, and managing applications
+without the cost, complexity, and inflexibility of maintaining that platform on premises.
+򐂰 Infrastructure as a service (IaaS)
+Provides on-demand access to fundamental computing resources without the need to
+manage or operate them. Some included resources are shown in the following list:
+– physical and virtual servers
+– networking
+– storage
+– data center space
+򐂰 Serverless Computing (serverless)
+Cloud computing model that offloads all of the back-end infrastructure management tasks
+to the cloud provider, which frees developers to focus their time and effort on the code and
+business logic to their applications.
+򐂰 Functions as a Service (FaaS)
+Subset of serverless, allows developers to run portions of application code (called
+
+functions) in response to specific events.
+
+1.2.3 Types of cloud computing
+The following types of cloud computing are available:
+򐂰 Public cloud
+Type of cloud computing in which cloud services are accessed over the open internet and
+running on hardware that is owned by the cloud provider, but its usage is shared by other
+companies.
+򐂰 Private cloud
+Type of cloud environment on which all cloud infrastructure and computing resources are
+dedicated to, and accessible by, one organization. This cloud can run on-premises, or a
+service provider can own, manage, and operate it.
+򐂰 Hybrid cloud
+Connects public and private cloud environments into a single, flexible infrastructure for
+running workloads and applications.
+򐂰 Multicloud
+Use of two or more clouds from different cloud providers. A multicloud configuration is the
+result of companies that use multiple cloud services (including SaaS, PaaS, and IaaS
+services) from different cloud providers.
+
+Chapter 1. Hybrid cloud overview
+
+3
+
+Organizations choose multicloud to avoid dedicating resources to a single vendor to have
+more services from which to choose and to access more innovation. However, each cloud
+provider can have different management tools, data transmission rates, and security
+protocols, so as more clouds are used, it might be more difficult to manage your
+environment.
+򐂰 Hybrid multicloud
+The use of two or more public clouds that are combined with a private cloud environment.
+
+1.2.4 General cloud concepts
+The following definitions are useful to help understand general cloud concepts:
+򐂰 Virtualization
+The use of software or firmware to create an abstraction layer over computer hardware
+that allows the hardware elements of a single computer (processors, memory, storage,
+and more) to be divided into multiple virtual computers, commonly called virtual machines
+(VMs).
+򐂰 Virtual machine
+A virtual representation, or emulation, of a physical computer. Often, they are referred to
+as a guest, and the physical machine they run on is referred to as the host.
+򐂰 On-premises
+Software and services that run on computers that are installed and managed by the
+organization that uses those services and not in another facility that is operated by a
+service provider.
+򐂰 Kubernetes
+A container orchestration platform for scheduling and automating the deployment,
+management, and scaling of containerized applications. Red Hat uses Linux, cloud,
+container, and Kubernetes technologies to supply their enterprise open source solutions.
+򐂰 Containers
+Executable unit of software in which an application is packaged with libraries and
+dependencies in a common way. It can be run on the desktop, traditional IT infrastructure,
+or in the cloud
+򐂰 Regions
+Dispersed geographic areas. Regions are used in Business Continuity solutions to help
+prevent a disaster from disabling more than one data center. The term “regions” can apply
+to both on-premises managed infrastructure environment and a cloud service-provider
+environment. Businesses often choose one or multiple worldwide regions to run their
+services, depending on their needs.
+򐂰 Availability zones (AZs)
+In the context of cloud computing, AZs are isolated locations within data center regions
+from which public cloud services originate and operate. Availability zones are designed to
+provide computer resources within a region to provide high availability for applications
+running in the cloud.
+
+4
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+1.3 Different cloud providers
+The cloud industry is expanding rapidly. As a result, billions of dollars are being invested in
+cloud migration and the cloud service-providing market remains competitive.
+Today, the two leaders in cloud computing are Amazon and Microsoft, followed by Google,
+Alibaba, and IBM.
+The following providers are among the top cloud computing providers.
+
+1.3.1 Amazon Web Services
+Amazon Web Services (AWS), a subsidiary of Amazon and one of the first to enter the cloud
+computing market space, is a broadly adopted public and hybrid cloud service provider. It
+offers an extensive range of infrastructure and platform services globally to businesses on a
+metered pay-as-you-go basis.
+AWS cloud provides a range of products, services, and solutions, including compute,
+DevOps, data analytics, Internet of Things (IoT), machine learning, networking, content
+delivery, robotics, and serverless computing, in 81 availability zones. Amazon Cloud markets
+themselves as a way of assisting customers to become more agile more quickly and cheaply
+than building physical server farms.
+
+1.3.2 Microsoft Azure
+Microsoft Azure provides a flexible hybrid cloud platform for building, testing, deploying, and
+managing applications and services through Microsoft-managed data centers.
+Because of their 200+ data centers that are spread out in many regions, Azure provides a
+global reach with a local presence. Azure provides Software, Platform, and Infrastructure
+services that support programming languages, tools, and frameworks, including
+Microsoft-specific software and systems and third-party software and systems.
+A key advantage for Azure is their Microsoft relationships with large enterprises.
+
+1.3.3 Google Cloud
+Google Cloud Platform (GCP) is a suite of cloud computing services that provides
+Infrastructure, Platform, and Serverless computing environments.
+Google uses GCP internally for their user products, such as Google Search and YouTube.
+Google Cloud Platform (GCP) provides an open source, multicloud, and hybrid cloud
+environment that provides advanced data analytic capabilities.
+Kubernetes was initially developed by Google.
+
+Chapter 1. Hybrid cloud overview
+
+5
+
+1.3.4 Alibaba Cloud
+Alibaba Cloud delivers a comprehensive suite of global cloud computing services to power
+customer’s online businesses and their own e-commerce ecosystem.
+Along with their cloud offerings, the company offers products and services, such as compute,
+network, storage, security, monitoring and managing, communication, analytics, IoT,
+application development, data migration, and web hosting.
+
+1.3.5 IBM Hybrid Cloud
+IBM Hybrid Cloud is a full stack cloud platform that spans public, private, and hybrid
+environments with products and services covering compute, network, storage, management,
+security, DevOps, and databases.
+Some of their prominent offerings include bare metal servers, VMware®, Cloud Paks for
+Application Modernization, IBM Cloud Virtual Private Cloud (VPC), and a suite of emerging,
+technologies, such as AI, IoT, blockchain, and data and analytics. IBM has been a cloud
+service provider since 2011, but only recently began offering Open Hybrid Cloud after the
+acquisition of Red Hat in 2018.
+Note: IBM Cloud offering portfolio is differentiated from competitors by including
+IBM zSystems, IBM Power servers, and x86 cloud capabilities.
+
+1.4 Reference architecture
+A reference architecture is a common template solution for architecture within a domain (in
+this case, the cloud computing domain). A reference architecture is important because it
+offers the following benefits:
+򐂰 Delivers best practices in a standardized, methodical way
+򐂰 Ensures consistency and quality across the development and delivery processes
+򐂰 Mitigates risk by taking an asset-based approach to solution development
+
+6
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+The IBM Cloud Computing Reference Architecture (CCRA) is a reference architecture that is
+defined by IBM for the cloud computing domain as shown in Figure 1-1. It is an evolving
+architecture that is based on real-world input from many cloud implementations around the
+globe and was submitted to the Open Group Cloud Architecture Project.
+
+Figure 1-1 IBM Cloud Computing Reference Architecture
+
+The IBM CCRA is designed around a set of architectural principles that establish the
+framework within which architectural decisions are made. CCRA includes the following
+architectural principles:
+򐂰
+򐂰
+򐂰
+򐂰
+
+Design for cloud-scale efficiencies
+Support lean service management.
+Identify and use commonalities
+Define and manage cloud services generically during their lifecycle
+
+1.5 Key differentiators of IBM Cloud
+This section describes characteristics that deliver key advantages for the use of IBM Cloud for
+your cloud computing workloads and cloud application modernization.
+
+1.5.1 Scalability
+Using the enterprise Kubernetes platform, Red Hat OpenShift can assist the hybrid cloud
+adoption process by helping customers shift their business applications to the cloud.
+As businesses begin or continue the next chapter of their digital reinventions and modernize
+workloads, IBM Hybrid Cloud that is built on Red Hat OpenShift provides them with open,
+flexible technology to manage their hybrid multicloud environment.
+
+Chapter 1. Hybrid cloud overview
+
+7
+
+Hybrid cloud allows businesses to move their workload to the cloud and use cloud services
+anywhere, whether that means on-premises or off premise.
+With IBM and Red Hat conjoint assistance, customers can use the cloud services that they
+purchased to their maximum capability. Developers can then work on applications with any
+language or tool and deploy efficiently and rapidly with a click of a button.
+
+1.5.2 Location access
+IBM Cloud Kubernetes Services are available to deploy workloads resiliently in over 60 data
+centers worldwide. Customers can deploy locally and scale globally and maximize choice and
+control.
+The location access of IBM Hybrid Cloud can be a differentiating factor because other cloud
+providers have fewer data center locations.
+IBM Cloud features three tiers of regions:
+򐂰 Multi-zone regions (MZRs)
+MZRs are composed of three or more zones that are independent from each other to
+ensure that single failure events affect only a single zone. This configuration ensures that
+customer workloads are secure if a singular malfunction occurs. MZRs also provide low
+latency and high-bandwidth connectivity across zones.
+򐂰 Single-zone regions (SZR)
+Customers can deploy on SZRs, but SZRs cannot spread across zones.
+򐂰 Data centers
+Data centers host the power, cooling, compute, network, and storage resources that are
+used for services and applications.
+IBM Cloud Satellite™ is an offering that allows customers to use a single API to create an
+IBM Cloud Satellite location and then, add host machines from any cloud, their on-premises
+data center, or edge computing. They can then use IBM Cloud services anywhere they need
+them, and consistently deploy, manage, and control workloads across these environments.
+
+1.5.3 Cloud security
+IBM has a long-standing history as a leading provider of security in the cloud. Often,
+customers are concerned about placing their workloads on the cloud, especially the public
+cloud, because of security breaches.
+However, IBM ensures that customers are always in control with the IBM Cloud data
+protection program, ensuring that customers are the only party that governs their private data.
+IBM does not provide customer data to a government agency under any surveillance program
+that involves the bulk collection of content or metadata. A shared responsibility for security
+exists between IBM and customers, which enables collaborative management and
+transparency.
+Data Encryption is a tool that protects data across environments, addresses compliance
+requirements, and reduces administrative efforts, so businesses can remain secure.
+IBM Security Guardium® Data Encryption encrypts files, databases, and applications;
+addresses data security and privacy regulations; and controls encryption keys for
+cloud-based data for customers.
+
+8
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+The IBM Cloud for Financial Services® is a cloud that is built to enable transparency, trust,
+compliance, and resiliency that financial institutions need. By using this public cloud,
+companies can confidently host their critical applications in the cloud and transact quickly and
+efficiently.
+With IBM Cloud Security and Compliance Center, customers also can use a unified
+dashboard to monitor security and compliance controls directly with IBM Cloud. Because the
+cost of a data breach is detrimental for businesses, IBM Cloud provides a single platform to
+view and manage security with configuration rules, predefined profiles, custom profiles,
+insights, reports, and custom tools. IBM constantly strives to prevent security breaches in the
+IBM Cloud.
+
+1.5.4 Long-lasting relationship
+IBM works with customers throughout their cloud transition. To assist with the move,
+customers can use various resources:
+򐂰
+򐂰
+򐂰
+򐂰
+
+A database of published documentation about cloud-related questions
+A large community of cloud peers and experts
+Constant assistance from outside developers
+IBM expertise
+
+IBM Garage™ brings together designers, architects, developers, and data scientists to
+envision, scale, and implement new plans with businesses. IBM Garage provides customers
+with tailored solutions and accommodation, whether that means responding to a quick
+disruption or guiding customers one-on-one in a full-scale transformation.
+IBM recognizes that one cloud size does not fit all; therefore, IBM is available to accompany
+customers throughout their experience.
+Beyond the unique IBM Garage methodology, which was shown to accelerate digital
+transformation across enterprises, the goal for IBM is to always create long-lasting, functional
+relationships with each customer in support of their environment.
+
+Chapter 1. Hybrid cloud overview
+
+9
+
+1.5.5 Leveraging innovation
+A major differentiating factor for IBM is the services that are offered alongside IBM Hybrid
+Cloud, as shown in Figure 1-2.
+
+Figure 1-2 IBM wide range of portfolio offerings
+
+With IBM and Red Hat solutions conjoined, customers can accelerate development and
+reduce processing time.
+Along with the tailored assistance to shift onto hybrid cloud, IBM offers different IBM Cloud
+Paks to streamline digital business development and resiliency. IBM Cloud Paks are
+AI-powered software that help organizations build, modernize, and manage applications
+securely across any cloud. Several types of IBM Cloud Paks are available:
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+
+Business Automation
+Watson AIOps
+Integration
+Network Automation
+Security
+Data
+
+All of these Cloud Pak types include pre-certified, containerized software and services that
+provide common operations and integration framework.
+
+10
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+IBM offers services, software, and consulting products that are available for customers to
+build and customize solutions for their business. A popular choice with IBM Hybrid Cloud is
+integrating AI into workflow, by using the trusted and reliable IBM data foundation for AI. AI
+failures can be due to failures in data collection and organization, not the AI models
+themselves. Therefore, by using scalable data infrastructure, customers can gain flexibility,
+extract insights, and unify tools from complex, unstructured big data.
+Solutions for IBM Watson and IBM Security® are secure. They help customers minimize risk
+by using AI and protect data by complying with regulatory and data privacy obligations.
+
+1.5.6 Multicloud and open source flexibility
+IBM supports multicloud strategies for application development, migration, modernization,
+and management with a range of cloud migration and integration technologies, services, and
+consulting offerings.
+Customers can choose deployment options that are tuned for specific business needs on
+multiple cloud platforms:
+򐂰
+򐂰
+򐂰
+򐂰
+
+IBM
+AWS
+Azure
+Google Cloud
+
+The platforms can be run on multiple system types:
+򐂰 x86
+򐂰 IBM Power servers
+򐂰 IBM zSystems
+Each cloud provider has their own set of management tools, data transmission rates, and
+security protocols. IBM works with customers and competitors to provide seamless cloud
+integration, interoperability and portability, latency, and privacy regulations.
+A few other cloud providers partake in the multicloud approach, which makes the
+collaboration seamless. However, by using the IBM Garage methodology, IBM not only
+co-collaborates with customers and other cloud providers, but invests in their ecosystem to
+benefit the customer, their partners, and the IBM company.
+The Hybrid Multicloud Platform allows for use of multiple vendors, and it is built on open
+source technologies, which help provide flexibility, portability, and the use of cloud services by
+way of open APIs. By nature, open source is a benefit for all, enabling anyone to look for and
+fix security flaws, which creates a much more secure and open platform for businesses and
+consumers.
+IBM is invested in open cloud, where one of the foundations of the partnership between IBM
+and Red Hat is Kubernetes. Kubernetes is the open source application container
+orchestration software that can make it easier to configure, deploy, and manage containerized
+applications. Through Red Hat OpenShift, IBM can provide the cloud platform where
+developers can build for hybrid cloud in open source.
+
+1.5.7 Price
+IBM offers flexible cloud billing options for every business by way of three different account
+types: Lite, Pay-as-you-go, and Subscription. Each account type offers different features and
+is billable on varying levels.
+
+Chapter 1. Hybrid cloud overview
+
+11
+
+Lite
+The Lite version of IBM Hybrid Cloud is available at no cost and provides access to over 40
+services, including IBM Watson® APIs. To access features beyond the Lite account,
+customers can upgrade to Pay-as-you-go in which they receive a USD 200 credit that is valid
+for 30 days.
+
+Pay-as-you-go
+The IBM Cloud Pay-as-you-go purchase model allows access to the full IBM Cloud catalog.
+Customers also can create multiple resources groups, but customers pay for only what they
+use with no long-term commitments.
+
+Subscription
+The subscription account offers many of the same benefits as Pay-as-you-go, but includes
+discounts for platform services and support and more consistent billing through subscription.
+To get a better idea of how much this model costs, see this IBM Cloud Docs web page.
+If you are hesitant to pay for IBM Hybrid Cloud because of the price, consider the cost savings
+of streamlining data, preventing breaches, and modernizing workloads.
+To estimate costs, customers can use the IBM Cloud cost estimator. IBM Hybrid Cloud
+services include IBM expertise with which IBM can work closely with the customer to focus
+efforts on specialized application tasks, workloads, security requirements, along with specific
+industry and customer needs.
+
+1.6 Use cases
+This section discusses the following IBM Cloud use cases:
+򐂰 Walmart Stores: Retail industry
+Walmart adopted the agile development method. However, to support their developers in
+their new agile approach, Walmart sought to quickly distribute computer resources to
+them.
+By using IBM Cloud Platform, Walmart created a cloud platform that is driven by APIs to
+give developers on-demand access to the resources they need and help the business
+scale to meet unpredictable spikes in demand. The collaboration resulted in a 99%
+decrease in time that is needed to deliver resources to developers (from 5 days to 10
+seconds).
+򐂰 Deutsche Bank: Financial services
+Deutsche Bank had a goal of improving the experience of banking customers and users of
+their back-end technology, being employees and external providers and developers who
+use the platform to build and run applications.
+By using Red Hat solutions, Deutsche Bank then built an open source PaaS to simplify
+DevOps collaboration, optimize capacity, and grow efficiency. As a result, they cut the
+end-to-end application development time from 6 - 9 months to 2 - 3 weeks.
+򐂰 Aetna: Healthcare services
+A CVS Health business, Aetna approached IBM with the goal of digitally transforming their
+business, specifically to improve transparency and interoperability within healthcare.
+By using the cloud-based IBM Blockchain® Platform, Aetna and IBM collaborated to
+design and create a blockchain network to enable healthcare companies to build, share,
+and deploy solutions in a highly secure, shared environment.
+12
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+򐂰 The Weather Company: Computer services
+With millions of people relying on the Weather Company website daily, especially in
+extreme weather times and usage peaks, the site must remain at their fastest and most
+reliable to provide the information that people need to stay safe.
+Thus, to optimize elasticity in handling extreme spikes in demand, the Weather Company
+worked with IBM to quickly migrate to the IBM Cloud® from its existing cloud provider. The
+results unlocked significant cost savings, used containerization services with Kubernetes,
+and expanded their global reach with access to more data centers.
+򐂰 Fox Sports: Media and Entertainment industry.
+Fox Sports sought to create a highly efficient, cutting-edge workflow that used their
+infrastructure to support live event production anywhere in the world, a revolutionary task
+for events of their scale.
+By using IBM Aspera® Streaming technology, Fox Sports integrated to Telestream
+Vantage and Lightspeed systems to deliver broadcast-quality feeds of every World Cup
+match to remote production teams in near real time, over unmanaged IP networks. The
+results created captivating HD content, greatly reduced costs of production, and delivered
+2 petabytes of HD and UHD content from Russia to the US over unmanaged IP networks.
+Note: For more information about how IBM Cloud helped to transform businesses, such as
+Intel, MongoDB, ExxonMobil, and State Farm, see this web page.
+
+1.7 Summary
+IBM Cloud entered the cloud service market in 2011, years later than most of their
+competitors, which made the race for the largest market share appear skewed.
+Although AWS, Google Cloud, and Microsoft Azure continue to dominate the cloud market,
+IBM has made great progress toward becoming another leading cloud service provider and
+robust competitor, further challenging and advancing the cloud computing game.
+Because of a marked increase in IT work being performed at home due to various factors,
+such as a pandemic, demand for the cloud computing model has increased, as well. Cloud
+providers are continuously trying to remain competitive with the rapidly growing market. For
+requirements of data acquisition, customers can often find advantages by using a single
+company that can provide multicloud, hybrid cloud, and a company that can differentiate itself
+by including AI, analytics, IoT, and edge computing or serverless and managed services.
+According to the validation of 30 companies, the value derived from a full hybrid, multicloud
+platform technology and operating model at scale is 2.5 times the value that is derived from a
+single platform, single cloud vendor approach2.
+Only IBM offers a hybrid cloud, multicloud service that is facilitated by the acquisition of Red
+Hat in 2018 and their unique, tailored Cloud Paks along with AI-infused software and Garage
+methodology, all of which enable businesses to transform their businesses.
+
+2
+
+The Hybrid Cloud Platform Advantage:
+https://www.ibm.com/thought-leadership/institute-business-value/report/hybrid-cloud-platform
+
+Chapter 1. Hybrid cloud overview
+
+13
+
+The next chapter of the cloud requires businesses that are about to embark on their cloud
+journey to invest in hybrid multicloud platform strategies and capabilities. They also must use
+the cloud service providers that address their exact needs at an accelerated yet efficient
+deployment pace and care to foster a long-lasting, trusting, and supportive relationship with
+their business.
+Note: For more information about the pricing of IBM Hybrid Cloud with Red Hat OpenShift,
+see this IBM Cloud Pricing web page.
+
+1.8 SAP and cloud computing
+Apparently, over the past years, SaaS gained more attention at SAP. SAP has adopted a
+subscription-based service model for cloud solutions with predictable revenue stream over
+time, instead of generating intermittent income from the software licenses. The acquisitions of
+Ariba, Concur, Fieldglass, Success Factors, and other SaaS solutions underpin that strategy.
+SAP continues to allow their customers to adopt cloud offerings in SAP Business Technology
+Platform at their own speed, and some customers choose to stay on-premises. However, the
+development paradigm is focused toward using the cloud, and many innovations are made
+available exclusively in SAP Business Technology Platform. To accelerate the transition of
+their customer base to the cloud, SAP created a specific offering, consisting of migration
+services. This offering is called RISE with SAP and is enriched by IBM with supplementary
+services called BREAKTHROUGH with IBM for RISE with SAP, premium supplier option.
+
+1.8.1 SAP HANA
+SAP HANA3 is a database that stores the data in memory at run time instead of on disk. SAP
+HANA enables highly parallel execution for advanced online analytical processing (OLAP)
+and high-speed online transaction processing (OLTP) in a single system. These features
+allow for the processing of large amounts of data in near real time, the immediate querying of
+data and getting data-driven results from actual data.
+SAP HANA on-premise is installed on the customer’s infrastructure or on IaaS delivered by a
+cloud provider. SAP HANA Cloud, SAP HANA database is a database as a service (DBaaS)
+offering from SAP.
+
+SAP HANA on-premise
+SAP HANA was launched in 2010, initially on x86 hardware only. In 2015, SAP HANA 1.0
+became generally available on IBM POWER8® servers also, at that time using a Big Endian
+code base. With availability of SAP HANA 2.0 in 2016, both SAP HANA streams for x86 and
+IBM POWER® merged into one common codebase. SAP HANA is a modern and mature
+solution that is used by tens of thousands of customers worldwide, and multiple thousands
+have deployed SAP HANA on IBM Power.
+SAP HANA offers more functions than a database. In addition to storing and retrieving data
+that is requested by applications, it provides advanced search, analytical, and data integration
+capabilities for both structured data and unstructured data. SAP HANA offers an internal
+application server (XS Advanced Engine) for web applications. Also, SAP HANA offers other
+tools that help customers develop intelligent, analytic-driven applications based on real-time
+data, in-memory computing, and machine learning technologies.
+3 https://www.sap.com/products/technology-platform/hana/what-is-sap-hana.html
+
+14
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+SAP HANA can be deployed on-premises or in the cloud on several SAP-certified cloud
+service providers. Both IBM Power VS and x86-based offerings in
+IBM Cloud are supported as IaaS for SAP HANA.
+
+Deployment on-premises
+Note: SAP enforces that servers where SAP HANA will be installed meet certain requirements. The Certified and Supported SAP HANA Hardware Directory lists the suitable hardware configurations. For example, you can view a list of supported IBM Power servers.
+
+Deployment on IBM Power VS
+Note: SAP requires that the cloud service-provider servers be certified. The Certified and
+Supported SAP HANA Hardware Directory lists the suitable IaaS profiles for the virtual
+server instance, including this list for IBM PowerVS.
+
+SAP HANA Cloud and SAP HANA database
+SAP HANA Cloud is a single database as a service (DBaaS) foundation for modern
+applications and analytics across all enterprise data. SAP HANA Cloud is developed with the
+goal to be as compatible as possible with SAP HANA on-premise. Both the cloud-based and
+on-premises versions share a common code base and a high degree of SQL compatibility.
+They also have common tools and procedures for managing and monitoring. The
+SAP HANA Cloud, SAP HANA database edition is updated more frequently than the
+SAP HANA on-premise edition.
+
+1.8.2 SAP S/4HANA
+SAP changed its ERP software strategy to focus on its SAP HANA database, and the
+transition to SAP S/4HANA. SAP S/4HANA is an entirely new generation of SAP Business
+Suite providing simplifications, increased efficiency, and compelling features like planning and
+simulation options in many conventional transactions. SAP S/4HANA is developed natively on
+and for the SAP HANA platform.
+SAP has the following three major offerings as target for the transition to SAP S/4HANA:
+򐂰 SAP S/4HANA Cloud, public edition
+򐂰 SAP S/4HANA Cloud, private edition
+򐂰 SAP S/4HANA on-premise edition
+SAP recommends one of the two SAP S/4HANA Cloud choices in their RISE with SAP
+offering. However, some clients might require flexibility and individuality of
+SAP S/4HANA on-premise edition to support their business.
+The different options are highlighted in Table 1-1 and the following section highlights the
+differences between the editions.
+Table 1-1 Summary of the SAP S/4HANA editions
+Differentiating
+Factors
+
+SAP S/4HANA Cloud,
+public edition
+
+SAP S/4HANA Cloud,
+private edition
+
+SAP S/4HANA
+on-premise edition
+
+SAP Product scope
+
+SAP S/4HANA Cloud
+
+SAP S/4HANA
+
+Release Cycles
+
+Half-yearly
+
+Annually, plus Feature Support Packs
+
+Chapter 1. Hybrid cloud overview
+
+15
+
+Differentiating
+Factors
+
+SAP S/4HANA Cloud,
+public edition
+
+SAP S/4HANA Cloud,
+private edition
+
+SAP S/4HANA
+on-premise edition
+
+Minimum Update
+Frequency
+
+Half-yearly
+
+Five to seven years (to stay in mainstream
+maintenance)
+
+User Interface
+
+SAP Fiori
+
+SAP Fiori and SAP GUI
+
+Deployment Types
+
+New Implementation
+
+New Implementation, System Conversion, or
+Selective Data Transfer
+
+Configuration Option
+
+Self-Service
+Configuration User
+Interfaces
+
+Implementation Guide (IMG)
+
+Custom Code
+
+Through developer
+extensibility
+
+Optional
+
+Modification of SAP
+Code
+
+Not possible
+
+Optional
+
+Licensing
+
+Subscription
+
+Third-party add-ons
+
+Certified Public Cloud
+add-ons allowed
+
+Allowed, unless
+operating system
+access required
+
+Allowed
+
+Infrastructure
+
+SAP decision
+
+IaaS, customer
+preference (Options:
+AWS, Azure, GCP,
+IBM, or SAP)
+
+Customer owned,
+on-premises, or IaaS
+
+Software Upgrades
+
+Included and
+mandatory
+
+On request
+
+Customer
+responsibility
+
+Perpetual
+
+SAP S/4HANA Cloud, public edition
+SAP S/4HANA Cloud, public edition4 is SaaS hosted and operated by SAP. The infrastructure
+is within a public cloud and shared with other customers. Software upgrades are managed by
+SAP and are mandatory. Both SAP and the customer perform automated and manual
+regression tests. Function is core ERP (a subset of full ERP) with specific industries and 42
+supported countries. Extensions are possible as side-by-side extensibility through SAP
+Business Technology Platform Extension Suite with allowed APIs. It is suited for new
+greenfield implementations; you need to adapt settings by using Self Service Configuration
+User Interfaces (SSCUIs) based on the fit-to-standard workshops in the Explore phase. The
+SAP Fiori Launchpad is the user interface.
+
+4 https://www.sap.com/products/erp/s4hana.html
+
+16
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+SAP S/4HANA Cloud, private edition
+SAP S/4HANA Cloud, private edition is a subscription for software, but not SaaS. Dedicated
+landscapes are deployed on infrastructure running at a cloud provider and operated by SAP.
+Software upgrades are annually available, but you can choose when to upgrade if you run
+versions that are supported. SAP does only specific technical aspects of the upgrade. You
+need to manage the upgrade process by yourself. Coverage of industries, countries, and
+languages is the same as SAP S/4HANA on-premise edition, but some limitations for
+third-party add-ons apply. In-App extensibility includes key user extensibility and classic
+ABAP extensibility. Modifications are available but not recommended. Side-by-side
+extensibility through SAP Business Technology Platform Extension Suite is possible. It is
+suited for new implementations, system conversions, or selective data transitions. You adapt
+settings by using the Implementation Guide (IMG) tool on fit-to-standard workshops in the
+Explore phase.
+
+SAP S/4HANA on-premise edition
+SAP S/4HANA on-premise has traditional licensing. The software is owned and maintained
+by the customer. You deploy dedicated landscapes either on your own infrastructure in your
+on-premises data center or on IaaS infrastructure running at a cloud provider; you are the
+sole operator. Software upgrades are annually available. You choose your own speed of
+adoption, and you are fully responsible for managing the upgrade. Function is the entire SAP
+S/4HANA scope with full functional, country, industry scope, and partner add-ons. Full
+customizing, modification, and extensibility is possible as with ERP using the full IMG tool
+based on a fit-to-standard approach in the Explore phase.
+Many enterprises still require the full range of features of SAP S/4HANA and the possibility of
+a highly flexible customized environment based on their individual needs. Their business
+processes are well-proven and optimized, resulting in individual customized settings in the
+SAP S/4HANA system. The SAP S/4HANA on-premise edition is typically the preferred
+choice for those customers. The customers still need to decide whether they want to install
+the software on their own servers within their data centers, or use an IaaS partner like IBM
+PowerVS to provide the infrastructure. Refer to Table 1-1 on page 15 for a summary of the
+SAP S/4HANA editions.
+
+1.8.3 SAP Business Technology Platform
+SAP Business Technology Platform (SAP BTP) plays an important role in modernizing the
+business applications of SAP customers. SAP BTP forms the basis for delivering integrated
+end-to-end processes for the intelligent suite of applications from SAP.
+SAP BTP is not a product or another level within the IT infrastructure architecture. SAP BTP
+is a modular set of integrated solution components that facilitates interaction within a
+company or with other companies and provides the ability to extend SAP applications with
+new functions.
+SAP BTP is a strategic response by SAP to four important customer needs.
+1. Large companies maintain more than 100 different applications on average with the total
+number increasing by more than 60% since 2015. Every operational system requires
+context-relevant data models, business logic, and process definitions. Future success of a
+business relies on integration of those systems to break down technological and
+organizational silos.
+2. Many business leaders subscribe to the point of view stated by the phrase “data is the new
+oil”. However, the flood of data makes it increasingly difficult to find data that is relevant to
+the business and to turn that data into tangible business value.
+
+Chapter 1. Hybrid cloud overview
+
+17
+
+3. The COVID-19 pandemic demonstrated for companies the importance of managing their
+supply chains and go-to-market routes flexibly in response to volatile markets and
+changing requirements. New digital business models are also becoming a serious threat
+to established companies. To ensure that companies stay relevant and seize new
+opportunities quickly, they need to be able to flexibly build, to extend, and to enhance their
+core processes and applications.
+4. Businesses need to constantly redefine themselves. New products, new channels, new
+technologies, fast time to market, and quick investment amortization demand agility and
+swift execution by IT departments. In reality, 18 months of backlogs between business
+demand and IT delivery are the norm rather than the exception. And though businesses
+might recognize their technological capabilities as a strategic asset and strongly focus on
+IT strategies, finding people with the appropriate skills to implement those strategies can
+be difficult.
+Pre-packaged services and integrations allow the customer to simplify database processing,
+data management, and application development and provides an integration point for using
+analytic solutions and intelligent technologies.
+Some key use cases for SAP BTP are described in the following list:
+򐂰 The integration of processes, data, and experiences across SAP and third-party
+applications
+򐂰 The creation of business value from data, independent of where this data is stored
+򐂰 The extensibility allowing a customer to innovate the business, building on top of existing
+SAP systems
+SAP BTP is both a platform that provides tools and technologies for developers specific to
+SAP and a marketplace where SAP, its partners and its customers can present solutions and
+use solutions that are presented by others.
+SAP BTP offers solutions and services around four pillars:
+򐂰 Database and Data Management such as SAP HANA Cloud or SAP Data Warehouse
+Cloud
+򐂰 Analytics such as SAP Analytics Cloud
+򐂰 Application Development and Integration such as SAP Extension Suite and SAP
+Integration Suite
+򐂰 Intelligent Technologies such as SAP AI Business Services or SAP Intelligent Robotic
+Process Automation
+
+SAP Cloud Connector
+SAP Cloud Connector links SAP back-end systems that are deployed on-premises or on IaaS
+to applications and services in SAP BTP. It is designed for business-critical enterprise
+scenarios. For example, it recovers broken connections automatically, supports
+high-availability setup, includes audit logging capabilities for network traffic and configuration
+changes, and provides fine-grained access control for the cloud applications.
+You install SAP Cloud Connector on a virtual server instance within the same network as the
+back-end systems without exposing the entire internal system landscape.
+SAP Cloud Connector acts as a reverse invoke proxy and opens outbound HTTPS
+connections to SAP Cloud (TCP port 443). It initiates a secure communication tunnel to SAP
+BTP, and the SAP BTP applications can communicate securely with the back-end SAP
+systems using this tunnel. The cloud connector not only forwards HTTP/HTTPS requests
+
+18
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+through the tunnel, but supports other relevant protocols in the context of SAP. For example,
+the RFC protocol is also supported and allows native access to allow ABAP systems to start
+function modules from SAP BTP.
+The SAP Cloud Connector also allows the customer to connect on-premises databases or
+third-party applications to SAP HANA Cloud, SAP HANA database.
+
+1.8.4 RISE with SAP
+RISE with SAP is a comprehensive SaaS offering to support your business needs in your
+specific industry, worldwide, and for any regulatory requirement. SAP is responsible for the
+holistic service-level agreement, including cloud operations and technical support. RISE with
+SAP is intended for customers who are running SAP S/4HANA and want to move to a cloud
+ERP system with a subscription-based license. Also, the customer is either implementing a
+new ERP solution or planning to transform from SAP ECC to SAP S/4HANA.
+Figure 1-3 illustrates the options available to support SAP S/4HANA.
+
+Figure 1-3 RISE with SAP
+
+Cloud ERP (SAP S/4HANA Cloud) is the central component of the RISE with SAP offering
+and is complemented by additional components:
+򐂰 Business Process Intelligence
+SAP Business Process Intelligence is a suite of solutions providing the in-depth process
+analysis and the tools required for re-engineering of existing, or the creation of new
+innovative business processes. Business process design, industry benchmarking, gap
+analysis, improvement, and process change management are covered. Use the business
+process intelligence starter pack for RISE with SAP to understand, innovate, and
+transform your business processes.
+򐂰 Business Platform and Analytics
+SAP BTP is a unified environment that combines data management, analytics, AI,
+application development, automation, and integration capabilities. Credits for BTP are
+included in the RISE with SAP contract.
+Chapter 1. Hybrid cloud overview
+
+19
+
+򐂰 Business Networks
+Use the SAP Business Network Starter Pack to expand your digital collaboration with
+trading partners across the SAP Business Network.
+򐂰 Outcome-driven services and tools
+These services and tools are delivered by SAP partners.IBM offers BREAKTHROUGH
+with IBM for RISE with SAP to plan, perform, and support your business transformation.
+IBM then provides advisory services, implementation services, and application
+management to complement and safeguard your SAP S/4HANA implementation.
+When you choose the BREAKTHROUGH with IBM for RISE with SAP, Premium Supplier
+Option IBM extends those services with deployment and management of the cloud ERP
+systems in IBM Cloud. You then have the additional ability to run your cloud ERP
+workloads on IBM Power on IBM Cloud. This provides all the advantages of IBM Power,
+like high levels of performance for your mission-critical cloud ERP workloads, with leading
+flexibility, resiliency, and security at the same time. All this seamlessly integrated into the
+service offerings and processes of RISE with SAP.
+Figure 1-4 shows the benefits of BREAKTHROUGH with IBM for RISE with SAP, premium
+supplier option.
+
+Figure 1-4 BREAKTHROUGH with IBM for RISE with SAP, premium supplier option
+
+1.8.5 SAP Cloud Solutions
+Besides the cloud solution listed in Figure 1-4, SAP has many other cloud offerings within
+their portfolio. SAP has many more offerings, and SAP will continue to expand their SaaS
+portfolio. The solutions are subscription based with either annual or monthly payments. Users
+access SAP SaaS applications by a web browser or a lightweight client application over the
+internet. The solutions are hosted by SAP on a multi-tenant architecture, and SAP manages
+the entire IT infrastructure that is required to deliver the SaaS solution:
+򐂰 SAP Ariba
+SAP Ariba provides procurement and supply chain solutions allowing you to consolidate
+and control all company spendings along from source to pay.
+
+20
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+򐂰 SAP Concur
+SAP Concur is a travel and expense management solution. Employees of a company use
+SAP Concur for business travel booking, and for reimbursement of the expenses.
+򐂰 SAP Customer Experience
+SAP Customer Experience is a customer experience suite of solutions that consists of five
+cloud applications:
+–
+–
+–
+–
+–
+
+SAP Commerce Cloud
+SAP Customer Data Cloud
+SAP Marketing Cloud
+SAP Sales Cloud
+SAP Service Cloud.
+
+򐂰 SAP Fieldglass
+SAP Fieldglass is a cloud-based, open Vendor Management System (VMS) that helps
+organizations find, engage, manage, and pay external workers anywhere in the world.
+SAP Fieldglass integrates with other SAP Cloud services like SAP Ariba for procurement
+and SAP SuccessFactors for human capital management.
+򐂰 SAP SuccessFactors
+SAP SuccessFactors is a Human Capital Management (HCM) solution that is designed to
+manage end-to-end HR business processes.
+
+1.9 IBM Power solutions for SAP
+IBM Power servers are built for demanding workloads like SAP HANA. Specific advantages of
+IBM Power servers help you simplify and accelerate your SAP HANA deployments:
+򐂰 Faster provisioning
+You can create new instances using the features of IBM PowerVM® virtualization. You can
+adjust the compute capacity, memory, or I/O infrastructure of existing instances without
+shutting down applications or procuring new hardware. Whether you need to increase or
+decrease capacity, or consolidate multiple environments, you can achieve all of those
+things in the virtualized environment.
+򐂰 Flexibility and Scaling
+SAP HANA or SAP S/4HANA will become the core system for your business. Because
+your data is expected to grow, a scalable infrastructure allows for growth of the application.
+Using IBM Power servers, you can increase or decrease the logical partitions with
+on-demand growth at a granularity of 1 GB memory, 1 processor core, or an entitlement as
+small as 0.01 core in a shared processor pool configuration.
+Using “Shared Processor Pools”, you can balance processor capacity for SAP HANA
+across multiple logical partitions. Using this capability, you deploy server capacity only
+according to the total demand for all SAP HANA instances in a server, instead of summing
+up the maximum capacity of all individual instances.
+SAP supports SAP HANA single node systems on IBM Power servers up to 40 TB of
+memory (Up to 22.5 TB in an IBM Power VS instance).
+
+Chapter 1. Hybrid cloud overview
+
+21
+
+򐂰 Maximum uptime
+Memory is a single point of failure. As SAP HANA is an in-memory database, any crash,
+and the following restart of SAP HANA requires data reload into memory until the system
+is ready for operation. The memory reload can be time consuming. The mission-critical
+resilience of IBM Power servers can help avoid downtime and keep the SAP HANA
+system up and running.
+
+1.9.1 IBM PowerVS
+In the past, deploying IBM i, IBM AIX®, or Linux on Power in a public or hybrid cloud was
+found to be difficult or even technically impossible and expensive. These challenges can now
+be addressed with the IBM PowerVS offering:
+1. A user can order an AIX, IBM i, and Linux on Power VM-based virtual machine as a
+service.
+2. The order is initiated through the IBM Cloud Catalog. Costs are based on
+consumption-based pricing plans.
+3. IBM manages up to the operating system deployment, and the user self-manages the
+operating system, middleware, and applications that are running on the deployed system.
+This section introduces the conceptual foundations of IBM PowerVS and includes the
+following topics:
+򐂰 Overview
+򐂰 Creating an IBM PowerVS workspace
+򐂰 Creating an IBM PowerVS instance
+
+Overview
+The IBM PowerVS offering is an infrastructure as a service (IaaS) offering currently deployed
+across 15 IBM Cloud data centers around the world. It delivers enterprise-class computing
+capabilities with the flexibility of a hybrid cloud deployment. The IBM PowerVS instances are
+built within their own infrastructure environment with separate networks and SAN-attached
+storage in the IBM data centers. The virtual server instances run on IBM Power hardware with
+the PowerVM hypervisor. Internal networks are fenced but offer low-latency connectivity
+options to IBM Cloud services or to the on-premises environments of the customers. This
+infrastructure design, which matches on-premises deployments in customer data centers and
+is therefore supported by various ISVs, ensures that IBM PowerVS maintains key enterprise
+software certifications and support. Examples of supported applications include SAP
+applications based on the SAP NetWeaver stack, SAP HANA, SAP S/4HANA, Oracle, and
+other home-grown applications. An overview of the available virtual server options is shown in
+Table 1-2.
+Table 1-2 Options for virtual server instances
+
+22
+
+Category
+
+Options
+
+Power server
+
+IBM Power E980 (Power E980)
+or IBM Power S922 (Power
+S922)
+
+Compute capacity
+
+0.25 -143 cores
+(up to 15 for Power S922 and up
+to 143 for Power E980)
+
+Mode
+
+Shared (capped or uncapped)
+or Dedicated
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+Category
+
+Options
+
+Storage
+
+IBM FlashSystem® 9200 all
+flash
+Tier 3 (SSD) or Tier 1 (NVMe)
+
+Storage volume size
+
+10 GB minimum per volume,
+2 TB maximum per volume,
+in 10 GB increments
+
+Network
+
+Public and Private subnets
+
+Operating systems
+
+AIX, IBM i, or Linux
+
+A virtual server instance can be deployed in a matter of minutes. As a result, IBM Power
+customers who needed to rely only on their on-premises infrastructure now can quickly and
+economically extend their IBM Power IT resources off premises.
+IBM Power customers who are interested in application modernization benefit from deploying
+the workloads to IBM PowerVS. Moving the application to an entirely new platform is
+unnecessary, which can help reduce costs and reduce risk.
+The customers get access to a stack of enterprise services from IBM, as well. The customer
+pays for what they use and have the options to quickly scale up and out. IBM PowerVS
+enables customers to take full advantage of this trend, with the ability to provision AIX, IBM i,
+or Linux virtual server instances that can be connected to cloud services.
+
+Creating a PowerVS workspace
+Before creating a virtual server instance, you must understand the terminology and the
+difference between a PowerVS workspace and a PowerVS instance.
+A PowerVS workspace is the upper hierarchy in the user interface and acts as a container for
+PowerVS resources at a specific geographic region. Each workspace is tied to a single data
+center. Resources include computing, networking, and storage volumes. Resources cannot
+be moved or shared between different workspaces.
+You can deploy multiple PowerVS workspaces. For example, you can have two PowerVS
+workspaces: one in Dallas, Texas, US, and another one in Washington, DC, US. Each
+workspace can contain multiple PowerVS instances.
+
+Chapter 1. Hybrid cloud overview
+
+23
+
+Log in to IBM Cloud to create a PowerVS workspace. The window looks like what is seen in
+Figure 1-5.
+
+Figure 1-5 PowerVS entry point
+
+Select Create a workspace, and you are asked to login to IBM Cloud. If you do not have an
+ID, you can create an account from this panel. After logging in, you will see Figure 1-6. Here,
+you can view any workspaces that you created previously or create one.
+This panel is the entry point for the functions that you need to create your IBM PowerVS
+environments. Using the links at the left, you can customize your Workspace and Virtual
+server instances, creating network connections, storage, boot images, and SSH keys.
+
+Figure 1-6 Create workspace panel
+
+24
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+Select Create and complete the fields as seen in Figure 1-7. Be sure to select the data center
+you want to host your workspace, then select Create.
+
+Figure 1-7 Create workspace enter details.
+
+The workspace is created, and you return to the Workspaces panel (Figure 1-8), which shows
+your new workspace. If needed, you can create more workspaces.
+
+Figure 1-8 Workspace successfully created
+
+Chapter 1. Hybrid cloud overview
+
+25
+
+After the workspace is created, you might need to customize it:
+򐂰 Create a subnet.
+The virtual server instances are typically attached to a private network, so at least one
+private subnet is required in the workspace. During the deployment, an IP address out of
+the defined IP range is chosen and the virtual server instance is attached to the network.
+򐂰 Explore other network architecture options.
+With IBM Cloud connection, you can connect your IBM PowerVS instances to other IBM
+Cloud resources within your account. IBM Cloud connections might be required for
+integration scenarios that use other IBM Cloud resources on IBM Cloud classic network
+and IBM Cloud VPC infrastructures.
+See Managing IBM Cloud connections in the IBM Cloud documentation and 2.3.2,
+“Network connectivity” on page 41 for the networking aspects.
+򐂰 Create an SSH key.
+Set up one or more SSH keys for root login. First, create a key pair, and then load the
+public key to the SSH keys store in PowerVS. For deployment of the virtual server
+instance, specify one or more keys out of the keystore. These keys are added to the
+authorized key file of the root user. Using the keys, you can securely login to the virtual
+server instance by using your private key.
+See Generating an SSH key in the IBM Cloud documentation:
+The recommendation is to use key type Ed25519 as this key type is fast and secure.
+򐂰 Decide on the boot image.
+You have certain options for obtaining the image that you use:
+– Certain AIX, IBM i, and LINUX images are already prepared as stock images
+– You can import a custom image.
+The image must be uploaded to IBM Cloud Object Storage in OVA format first. See
+also Deploying a custom image within a Power Systems Virtual Server.
+The outlines also provide the necessary steps for creating an IBM Cloud Storage
+bucket and generating secret and access keys.
+For AIX and IBM i images, the operating system license is part of the virtual server
+instance deployment. For Linux Images, either provide a custom subscription, or use the
+Full Linux Subscription provided through the use of PowerVS.
+See IBM Cloud documentation regarding the full Linux subscription and the steps that are
+required for registration and Cloud customization.
+
+Creating a PowerVS instance
+You can work with your resources in various ways from your resource list. To directly manage
+the IBM PowerVS workspace, click the resource's name to go to the resource details window.
+After creating your workspace as shown in “Creating a PowerVS workspace” on page 23, you
+can now create a Virtual Server Instance by going back to the home panel again and
+selecting Power Systems Virtual Server at the top of the left menu bar or go to IBM Cloud
+Power Overview.
+Be sure to select your workspace in the left menu bar by using a drop-down list showing what
+workspaces you have created.
+
+26
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+Click Create instance to create a Power Systems Virtual Server instance (VSI). The next
+panel that is displayed is similar to what is shown in Figure 1-9.
+You can create a cost-effective Power Systems Virtual Server instance that satisfies your
+business needs. To order the virtual server instance, enter the requested data:
+򐂰 Number of instances
+Specify the number of virtual instances that you want to create. If you specify more than
+one instance, other options are available, such as hosting all instances on the same server
+or not, and VM pinning.
+You can choose to soft pin or hard pin a VM to the host where it is running. When you soft
+pin a VM for high availability, PowerVC automatically migrates the VM back to the original
+host after the host is back to its operating state. The hard pin option restricts the
+movement of the VM during remote restart, automated remote restart, DRO, and live
+partition migration.
+򐂰 SSH key
+Choose an SSH key or create one to connect to your IBM PowerVS securely.
+
+Figure 1-9 Create VSI Base details
+
+Select Continue to go to the Boot Image section.
+
+Chapter 1. Hybrid cloud overview
+
+27
+
+򐂰 Boot image
+When you select Boot Image, the Power Systems Virtual Server user interface allows you
+to select boot images from a group of stock images or the list of stock images in your
+catalog. See Figure 1-10.
+There are two selections for SAP on Linux in the Operating System selection box:
+– Linux for SAP (HANA)
+– Linux for SAP Netweaver
+Choose the appropriate version. After you choose the OS, you are given options for SUSE
+Linux Enterprise Server or Red Hat Enterprise Linux (RHEL).
+There is a checkbox, Use a custom SAP (HANA) profile, which you use for only
+nonproduction SAP HANA instances. Selecting the checkbox allows you to customize
+your CPU and memory selections. If it is not checked, then you can select from a list of
+standard CPU and memory settings suitable for a production environment.
+The boot disk tier is automatically set to Tier1 when you select SAP HANA images and
+cannot be changed. There are options on placement of the boot volume that can be set.
+Click Continue.
+
+Figure 1-10 Boot image selections
+
+28
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+򐂰 Profile
+In the Profile section, you can choose what your virtual server will look like including the
+machine type that will run the server, the number of cores and the amount of memory it
+will have. See Figure 1-11.
+For SAP HANA workloads, currently the machine type is required to be IBM Power E980
+(Power E980), and you are presented a list of supported machine configurations. If you
+want a custom configuration for nonproduction workloads and have selected the Custom
+Configuration option on the Boot Image, then you can choose the cores and memory:
+– Machine type
+Specify the machine type. The machine type that you select determines the maximum
+number of cores and maximum memory that is available. For SAP HANA workloads,
+the SAP profiles require machine type Power E980. SAP application servers or
+non-SAP HANA databases can be deployed on either IBM Power S922 or Power E980.
+It is anticipated that the Power10 processor family will be deployed in IBM PowerVS in
+the future. Because SAP supports Power10 today, the Power10 options, when they are
+available from IBM PowerVS will be supported:
+– Cores
+SAP profiles for SAP HANA workloads use dedicated cores, so they have a
+core-to-vCPU ratio of 1:1. For shared processors, fractional cores round up to the
+nearest whole integer, for example, 1.25 cores = two vCPUs.
+– Memory
+Select the amount of memory for the Power Systems Virtual Server instance.
+
+Figure 1-11 Profile selections for SAP HANA
+
+Chapter 1. Hybrid cloud overview
+
+29
+
+򐂰 Storage volumes
+The boot volume was created earlier in the process. You need to have disk volumes for
+your application data. You can create data volumes or you can attach existing volumes
+that are already defined in your account.
+Note that volumes that are created as you are building your instance and before the
+instance has been provisioned will be placed in the same storage pool as the boot device.
+If you want to have them in different storage pools, then you need to add them after your
+VSI has been provisioned.
+The Storage provisioning can be seen in Figure 1-12.
+You can create multiple volumes of the same size with one operation. SAP HANA volumes
+are limited to Tier 1.
+Click Continue to go to the network setup.
+
+Figure 1-12 Storage provisioning
+
+30
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+򐂰 Network interfaces
+The network interface section is shown in Figure 1-13.
+At least one private or public network is required. Network interfaces are created by
+adding a public network, private network, or both. When adding a private network, you can
+choose a specific IP address or have one auto-assigned.
+Click Finish to complete your configuration and return to the order summary.
+
+Figure 1-13 Network provisioning
+
+Chapter 1. Hybrid cloud overview
+
+31
+
+After clicking Finish, you are returned to the order summary as shown in Figure 1-14. The
+total due per month is shown in the Order Summary based on your selections as you went
+through the process.
+If you are satisfied with your selections and want to provision the VSI, click the button to agree
+to the terms and conditions and select Create.
+
+Figure 1-14 Provisioning complete and order summary
+
+After your VSI is provisioned and initialized, you can login and start to customize your servers.
+If you need to add more resources to the environment as you start to use the applications on
+the Virtual Servers, the changes can be made through the same interface.
+If you have questions about the options presented, then consult Power Virtual Servers for
+SAP in the IBM PowerVS documentation.
+
+32
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+2
+
+Chapter 2.
+
+Architecture for SAP solutions in
+IBM Power Virtual Server
+This chapter introduces you to the IBM Power Virtual Server (IBM PowerVS) offering, which is
+a cloud-based enterprise service that is hosted on IBM Power servers in IBM data centers.
+This chapter provides an overview of the offering and shows how it can host SAP solutions in
+an IaaS platform that is managed by IBM. In addition, this chapter discusses the benefits the
+IBM PowerVS offering can provide to your enterprise running SAP or SAP HANA workloads.
+The following topics are discussed in this chapter:
+򐂰 2.1, “Choosing SAP on IBM PowerVS” on page 34
+򐂰 2.2, “SAP applications on IBM PowerVS” on page 35
+򐂰 2.3, “Architectural details” on page 38
+
+© Copyright IBM Corp. 2023.
+
+33
+
+2.1 Choosing SAP on IBM PowerVS
+IBM Power has been a choice for enterprises for their mission-critical SAP workloads for quite
+some time. This is due to the strength of IBM Power pertaining to stability, performance, and
+strong security controls.
+Power microprocessors are designed for high performance, and the built in simultaneous
+multithreading (SMT) technology adds additional threads to provide additional throughput.
+High-bandwidth memory connections and an industry first PCIe5 based I/O infrastructure
+gives the Power processor industry-leading performance numbers for throughput and
+processing power. Additionally, built in virtualization features of the Power servers, such as
+IBM PowerVM, provide scalability and flexibility. All of these features make IBM Power an
+excellent platform for modern applications like SAP HANA.
+For those customers that are looking to move from an on-premises solution to a more flexible
+cloud type infrastructure for either production or disaster recovery, IBM PowerVS is designed
+to provide a cloud solution for workloads running on IBM Power. IBM PowerVS is an
+enterprise-level Infrastructure-as-a-Service (IaaS) offering, which uses Power processors to
+provide the reliability and sheer processing power that can be experienced with on-premises
+Power servers and takes advantage of the same scalability, stability and security you can get
+with an on-premises implementation, all managed by IBM. This IaaS gives you the ability to
+create a high-performance application environment for your SAP workloads on a cloud
+consumption model, a trend that is becoming more common for customers that want to stop
+managing IT infrastructure.
+IBM PowerVS offers IBM Power servers on a subscription basis. Hence, enterprises can
+expand their SAP Landscape at their own pace by extending workloads on a pay-as-you-go
+basis, on-demand, within minutes to enhance flexibility and agility. Using the hybrid cloud
+solution of IBM PowerVS, SAP Clients have access to over 50 SAP certified production
+instances that are customizable.
+With the IBM PowerVS, you can quickly create and deploy one or more virtual servers that
+are running either AIX, IBM i, or Linux operating systems. After you provision the
+IBM PowerVS, you get access to infrastructure and physical computing resources without the
+need to manage or operate them. However, you must manage the operating system, the
+software applications, and your data. Figure 2-1 represents a responsibility assignment
+(RACI) matrix for PowerVS.
+
+Figure 2-1 IBM PowerVS IaaS layers
+
+34
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+IBM PowerVS servers are physically located in dedicated data centers with SAN attached
+storage. The internal networking capabilities are fenced to provide high performance and
+security. To connect to your users and to other services, IBM PowerVS provides network
+connectors to allow low latency connections to your on-premises insfrastructure, to the IBM
+Cloud, or to other cloud providers.
+IBM PowerVS provides virtual servers, also known as logical partitions (LPARs), that run on
+IBM Power hardware under the control of the PowerVM hypervisor. These characteristics
+make IBM PowerVS a seamless extension of on-premises Power technology and allow you to
+inherit all the on-premises Power advantages like security, stability, performance, and
+flexibility. IBM PowerVS can help you accelerate the hybrid cloud journey for your SAP
+workload without committing to a single vendor.
+
+2.2 SAP applications on IBM PowerVS
+IBM PowerVS is the only SAP-certified IaaS environment available on
+IBM Power technology. For customers already running SAP on Power, having the same
+hardware architecture in the PowerVS cloud simplifies management and enables rapid
+migration from on-premises to the cloud.
+IBM PowerVS infrastructure is engineered for five 9s availability service-level objective (SLO)
+and delivers up to 99.99% system level availability when using a high-availability cluster
+configuration.
+The end-to-end architecture, from processor to firmware to hypervisor, minimizes security
+vulnerabilities, and delivers an unmatched flexibility. Capacity (memory and cores) can be
+changed dynamically without a need for shutting down the virtual server instance.
+The list provides some possible use cases:
+򐂰 Production, HA/DR, and development and testing (dev/test) use cases
+򐂰 Combination of SAP and non-SAP workloads
+򐂰 Classic SAP workloads with a plan to shift to SAP HANA in near future
+򐂰 Production, disaster recovery, and backup use cases within IBM PowerVS data centers
+
+2.2.1 SAP HANA
+PowerVS is a certified IaaS platform for SAP HANA, and meets all the standards requested
+by SAP, ensuring that the infrastructure is optimized for SAP HANA workloads. This provides
+quality and stability for customers.
+PowerVS offers virtual server instances in the most comprehensive memory range in the
+cloud market starting from 128 GB - 22.5 TB for a single SAP HANA system.
+Note: For more information, see “SAP Note 2947579 - SAP HANA on IBM Power Virtual
+Servers”.
+
+Chapter 2. Architecture for SAP solutions in IBM Power Virtual Server
+
+35
+
+A rich set of SAP-certified compute profiles is available and can be grouped into the following
+different families as shown in Table 2-1.
+Table 2-1 SAP certified compute profiles supported
+
+36
+
+Family
+
+Description
+
+Custom
+
+Custom profiles are intended for nonproduction SAP HANA
+systems like sandbox systems, development systems, or test
+systems. These profiles are not supported or certified for
+SAP for production deployments.
+
+Small
+
+Small profiles are suitable for small SAP HANA systems.
+Four cores, and memory options less than 768 GB are
+provided.
+
+Compute Intensive
+
+Compute Intensive profiles are best for moderate to high web
+traffic workloads. Compute profiles are best for workloads
+with intensive CPU demands, such as high web traffic
+workloads, production batch processing, and front-end
+web servers.
+
+Balanced
+
+Balanced profiles are best for midsize databases and
+common cloud applications with moderate traffic.
+
+High Memory
+
+Very High Memory profiles are best for server OLAP
+databases, such as SAP NetWeaver.
+
+Ultra High Memory
+
+Ultra High Memory profiles offer the highest vCPU to
+memory ratios to serve in-memory OLTP databases, such as
+SAP.
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+Figure 2-2 illustrates the relationship between the number of cores and the memory size for
+the different compute profiles and families. Additional custom SAP HANA instance sizes are
+available for nonproduction environments.
+
+Figure 2-2 Compute profiles for SAP HANA
+
+Linux subscriptions for your VMs can be either client provided, or they are available from a full
+subscription option.
+
+2.2.2 SAP applications other than SAP HANA
+IBM PowerVS also supports SAP applications running on top of other application servers:
+򐂰 Application Server ABAP as part of SAP NetWeaver 7.0X
+򐂰 Application Server ABAP and Java as part of SAP NetWeaver 7.1 or later
+򐂰 Application Servers ABAP and Java as part of SAP NetWeaver 7.4 or later
+򐂰 ABAP Platform 1809 or later are supported on IBM PowerVS
+These workloads can be run on various operating systems:
+򐂰 AIX 7.1
+򐂰 AIX 7.2
+򐂰 SUSE Linux Enterprise Server for SAP 12 SP4 or later
+򐂰 Red Hat Enterprise Linux (RHEL) 8.1 or later
+򐂰 IBM i 7.1 or later
+On AIX, the following applications and databases are also supported:
+򐂰 IBM Db2® for LUW version 10.5 or later
+򐂰 Oracle RDBMS 12.1.0.2 or later
+򐂰 SAP ASE 16.0 SP03 or later
+Chapter 2. Architecture for SAP solutions in IBM Power Virtual Server
+
+37
+
+򐂰 MaxDB 7.9.09 or later
+򐂰 SAP BusinessObjects Business Intelligence platform
+򐂰 SAP Content Server and Cache Server 7.5 or later
+򐂰 SAP liveCache 7.9.10.04, released for EhP 4 for SAP SCM 7.0 or later
+Note: For more information, see SAP Note 2855850 - SAP applications on IBM Power
+Virtual Servers and the SAP product availability matrix for more information.
+
+2.3 Architectural details
+The architectural details described in this chapter are examples of an SAP system
+implementation in PowerVS. You can choose from several options based on your specific
+nonfunctional requirements (NFRs) for the system. Other options, which are not described
+here, might also be valid for your implementation. For more information, consult the IBM
+PowerVS documentation for additional information.
+
+2.3.1 Distributed architecture
+One SAP system contains different SAP instances. An SAP instance is a group of processes
+that are started and stopped at the same time.
+For example, an SAP NetWeaver system or SAP S/4HANA system consists of the following
+SAP instances:
+򐂰 ABAP Central services instance (ASCS instance)
+Contains the ABAP message server and the standalone enqueue server.
+򐂰 Primary application server instance (PAS instance)
+򐂰 Additional application server instances (AAS instance)
+PAS and AAS provide the runtime services to the clients connected to the SAP system.
+򐂰 Database Instance
+The number of each type of instance in an SAP system is listed in table Table 2-2.
+Table 2-2 SAP instances
+
+38
+
+Instance Name
+
+Number in an SAP system
+
+ASCS instance
+
+1
+
+PAS instance
+
+1
+
+DB instance
+
+1
+
+AAS instance
+
+0-n
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+Standard installation
+In a standard system installation, you install both the ASCS instance and the PAS instance on
+one virtual server instance.
+In the case where the database instance is not SAP HANA and the operating system is AIX,
+you can also install the database instance on the same virtual server instance together with
+ASCS instance and PAS instance.
+If the database instance is SAP HANA and the operating system is LINUX, then you can
+install the SAP HANA database instance on one virtual server instance together with ASCS
+instance and PAS instance. However, the typical setup is to have ASCS instance and PAS
+instance on one virtual server instance and the SAP HANA database on another.
+Figure 2-3 illustrates an SAP standard installation. The ASCS instance and the PAS instance
+are deployed to virtual server instance 1. The SAP HANA database is deployed to virtual
+server instance 2. Both virtual server instances are attached to a private network.
+
+Figure 2-3 SAP standard installation
+
+Distributed installation
+In a distributed SAP system installation, the ASCS instance, the database instance, the PAS
+instance, and one or more optional AAS instances are all deployed on multiple virtual server
+instances.
+
+Chapter 2. Architecture for SAP solutions in IBM Power Virtual Server
+
+39
+
+Figure 2-4 illustrates a distributed installation. Three virtual server instances are deployed in
+the workspace. The PAS instance is installed on virtual server instance 1; the SAP HANA
+database is deployed to virtual server instance 2; and the ASCS instance is deployed to
+virtual server instance 3. All virtual server instances are attached to a private network.
+
+Figure 2-4 SAP distributed installation
+
+High availability installation
+In a high-availability system, you install the enqueue replication server (ERS) instance, also.
+The ERS instance contains the replication table, which is a copy of the lock table of the
+standalone enqueue server in the ASCS instance. You must install the ERS on a different
+virtual server instance than the ASCS, and integrate that with a cluster product for takeover
+automation.
+Figure 2-5 illustrates a setup for an SAP ERP Central Component system (based on SAP
+NetWeaver) with a Db2 database and AIX operating system. All components are installed
+across two virtual server instances, and IBM PowerHA® is used to manage the takeover
+actions in the cluster for ASCS, ERS, Db2 Database and the NFS services.
+
+Figure 2-5 SAP high availability installation
+
+40
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+2.3.2 Network connectivity
+Connectivity for PowerVS instances involves one or more of the following networks:
+򐂰 PowerVS private subnets
+򐂰 IBM Cloud infrastructure networks for access to other resources in IBM Cloud
+The different infrastructure networks are managed separately and offer diverse features.
+They can be connected to each other to provide layer-3 IPv4 traffic flow:
+– IBM Cloud classic network resources include VLANs, subnets, and SSL virtual private
+network (VPN) access.
+– IBM Cloud Virtual Private Cloud (VPC) network resources include subnets, floating
+IPs, security groups, and VPN gateways.
+– PowerVS network resources include subnets.
+Bring your own IP (BYOIP) is supported for VPC network resources and PowerVS network
+resources.
+򐂰 External networks
+– Access the internet through resources hosted in any of the three infrastructure
+environments. A public subnet in PowerVS allows inbound and outbound access to the
+internet for the virtual server instances.
+– Connect your remote, on-premises networks to your IBM Cloud networks. You can use
+the following services to connect to a remote network:
+•
+
+Internet VPN
+Use the public internet to connect remote networks and IBM Cloud networks
+through a VPN. The VPN is terminated on gateway devices or a service within
+IBM Cloud.
+
+•
+
+Direct Link
+Direct Link is a suite of offerings for creating direct, private connections between
+your remote, on-premises network and IBM Cloud. Some of the offerings include
+third-party cloud connectivity providers like Megaport.
+
+Considerations for the private network
+All SAP instances need to be able to resolve all respective (virtual) hostnames to
+communicate with other system components. You can either setup a DNS service, and
+register all IP addresses and hostnames that are involved in the SAP system landscape, or if
+you use local name resolution, you can enter them in the /etc/hosts file on the virtual server
+instances.
+Do not introduce network alias names (DNS CNAME) as a virtual hostname for a specified IP
+address in any configuration profile. The relationship between IP label and IP address must
+be one-to-one. If you plan to implement the SAP installation with virtual hostnames, you must
+reserve additional IP addresses for them and add them to the name resolution.
+Set a static route in AIX so that packets destined to the VPC are routed to the private side of
+the gateway.
+
+Connecting IBM PowerVS with IBM cloud resources
+If the virtual server instances need to communicate with cloud resources outside, you need to
+create cloud connections in PowerVS. Cloud connections allow you to directly connect your
+PowerVS instances to IBM Cloud VPC and IBM Cloud classic networks in the same zone. If
+
+Chapter 2. Architecture for SAP solutions in IBM Power Virtual Server
+
+41
+
+network communication spans across multiple zones and requires access to PowerVS
+instances deployed in another region, then use an IBM Cloud Transit Gateway.
+
+Cloud connections
+Cloud connections provide connectivity to IBM Cloud Classic network in addition to the IBM
+Cloud VPC network. Cloud connections use Direct Link Connect as the underlying
+connection layer.
+Figure 2-6 illustrates cloud connections between virtual server instances in IBM PowerVS and
+resources in VPC. If there is not an existing Direct Link Connect, a new one will be deployed
+in the region when ordering cloud connections. You then choose the subnets in VPC or the
+IBM Cloud classic to connect to a subnet in IBM PowerVS.
+
+Figure 2-6 Cloud connections
+
+To create a cloud connection, follow these steps:
+1. Navigate to the PowerVS user interface and select Cloud connections.
+2. In the Cloud connections page, click Create connection.
+3. Specify a connection name and select a connection speed.
+Ensure that the following rules apply:
+– The maximum connection speed is 10 Gbps.
+– You can select 10 Gbps speed only when creating a new connection.
+– If you select 10 Gbps speed during creation, you cannot modify it later on, and the
+GRE tunneling option is disabled.
+So, you cannot modify a cloud connection with 10 Gbps to be GRE capable.
+4. Toggle the Global routing switch to the on position if you need access to other data
+centers outside your region.
+You can access all of the Classic network locations irrespective of Direct Link 2.0 gateway
+in Local Routing or Global Routing attribute. You must use the Global routing option to
+reach the VPC network that is outside the local region.
+
+42
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+5. Select the endpoint destination where the Direct Link gateway is attached:
+– Classic Infrastructure
+Attach to IBM Cloud classic resources. Only one Classic infrastructure connection is
+allowed per Direct Link gateway. You can also request a Generic Routing
+Encapsulation (GRE) tunnel configuration by specifying the GRE destination and GRE
+subnet IP addresses.
+– IBM Cloud VPC
+Attach to your account’s IBM Cloud VPC resources.
+You can connect to multiple IBM Cloud VPC networks. Select the IBM Cloud VPC
+connections from the list of available connections.
+6. Click Attach existing to attach an existing subnet to the cloud connection.
+GRE tunnel requires that a cloud connection must be attached to a subnet. The table lists
+all the subnets that are attached to the cloud connection.
+If you want to attach a subnet to a cloud connection, the network traffic is routed over the
+cloud connection. You must route PowerVS private network subnets over IBM Cloud Direct
+Link to allow connectivity between PowerVS instances and the IBM Cloud network.
+7. Review the summary and the terms and conditions information.
+8. Click Create to create a cloud connection.
+When a public network is attached to the virtual server instance, the default gateway is
+defined on the public network. Communication with virtual servers on the private network is
+possible due to the network route directly on the network adapter level. To be able to
+communicate with resources in IBM Cloud VPC or IBM Cloud classic, you need to add a
+static route on the virtual server instance. Destination for the static route is one of the foreign
+networks you attached in the previous step by using a gateway on the private network.
+IBM Cloud Direct Link is not a redundant service by default. For a high availability setup, order
+a second additional Direct Link Connect instance for redundancy.
+Perform the following steps to set up highly available connectivity to the IBM Cloud network:
+1. Create two cloud connections for your PowerVS.
+2. Attach the subnets to both the primary and the redundant cloud connections.
+The two redundant cloud connections and their Border Gateway Protocol (BGP)
+configuration provides redundant paths for routing the traffic from the subnets.
+
+IBM Cloud Transit Gateway
+IBM Cloud Transit Gateway provides a central hub for connectivity that simplifies provisioning
+and managing your networks. It supports hybrid workloads, frequent data transfers, and
+private workloads, and reduces the network complexity in your cloud environment. You can
+deploy resources in IBM Cloud classic infrastructure and
+IBM Cloud VPC that eventually span across multiple zones and regions.
+IBM Cloud Transit Gateway can be used to easily interconnect all your resources.
+
+Connecting an on-premises environment and PowerVS
+A key customer requirement is the ability to securely connect to the cloud-based workloads.
+The simplest possibility is to attach one virtual server instance to the public network, and use
+
+Chapter 2. Architecture for SAP solutions in IBM Power Virtual Server
+
+43
+
+the virtual server instance as a “jump host” to other virtual server instances attached to the
+private network.
+As an alternative you can deploy the “jump host” in the IBM VPC with a floating IP address.
+Then, create a cloud connection in IBM PowerVS, and attach the subnet in the IBM VPC with
+the subnet in IBM PowerVS. You then can login to the “jump host” in the IBM VPC from the
+internet and use ssh forwarding to access the virtual instances in the IBM PowerVS subnet.
+These scenarios, where one virtual server instance is either deployed in IBM PowerVS or in
+the IBM VPC and is directly accessible from the internet in the public network, are to be used
+for only evaluation purposes and simple tests in an early stage.
+When more development and test scenarios arise, arrange VPN connections between the
+on-premises network and IBM Cloud. In the case where only IBM PowerVS resources need to
+be accessed, the VPN endpoint can be directly created in IBM PowerVS. However, if
+communication is required from the on-premises network to resources both in IBM Cloud
+classic or the IBM VPC, and IBM PowerVS within a single zone, create the VPN endpoint in
+the IBM VPC. Cloud connections in IBM PowerVS are used to attach the subnet in
+IBM PowerVS to the IBM VPC network.
+
+IBM Cloud Direct Link
+For production use cases, you can order IBM Cloud Direct Link to connect your on-premises
+data center with resources in IBM Cloud. IBM Cloud Direct Link provides connectivity from an
+external source into a customer's IBM Cloud private network. IBM Cloud Direct Link service is
+a routed, OSI Layer-3 service and is designed for customers requiring a consistent,
+high-throughput connectivity between their on-premises network and their IBM Cloud
+environments. It offers a direct connection to the IBM Cloud private network backbone, with
+low latency and throughput up to 5 Gbps.
+Figure 2-7 illustrates the Direct Link connection to IBM Cloud. You can bind the direct link to
+transit gateways to create a secure connection between the on-premises networks and IBM
+Cloud resources.
+
+Figure 2-7 Direct Link connection to IBM Cloud
+
+2.3.3 High availability
+SAP applications are the backbone of the business operations for many companies and are
+essential for their success. High availability of their SAP systems is one of the top concerns of
+company management. This high availability requires implementation of a set of techniques,
+44
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+engineering practices, services, and business applications are available to authorized users
+when needed.
+This section provides an example of a high-availability setup, using the example of
+SAP HANA System Replication, a Red Hat Pacemaker, and Red Hat cluster integration for
+SAP.
+One important consideration when setting up a Red Hat Pacemaker cluster is the fencing
+mechanism “shoot the other node in the head” (STONITH). STONITH is designed to protect
+your data from being corrupted by a split brain situation in the cluster where both nodes are
+acting in a primary role.
+Note: For a Red Hat Pacemaker cluster in production, use STONITH or fencing must be
+enabled.
+At the time of writing, the fence agent, fence_ibm_powervs, is the only supported agent for
+the STONITH device for Red Hat Pacemaker clusters on IBM PowerVS. The fence agent
+connects to the Power Cloud API to get status information for the virtual server instances and,
+if necessary, forces a reboot for one of them.
+SAP HANA is installed on two virtual server instances, and SAP HANA System Replication is
+set up. The Red Hat Pacemaker Cluster monitors the status of the SAP HANA System
+Replication and automates a takeover operation, if required.
+Figure 2-8 illustrates the scenario during normal operation.
+
+Figure 2-8 SAP HANA system replication normal operation
+
+The SAP HANA system is protected by SAP HANA System Replication (HSR). In this
+configuration, you can see SAP HANA System Replication - performance optimized option.
+The secondary system is mirroring all log changes on the primary and has the complete data
+pre-loaded into RAM. This means that it is ready to be in potential take-over. The secondary
+system needs to be identically sized, specifically the RAM size needs to be identical.
+
+Chapter 2. Architecture for SAP solutions in IBM Power Virtual Server
+
+45
+
+The SAP HANA primary system is currently active on virtual server instance 1 and accepts
+incoming requests from the applications over the virtual IP address. All data changes in the
+database are replicated to the SAP HANA secondary system on virtual server instance 2.
+
+At times, SAP HANA on virtual server instance 1 might not react as expected. If, for
+example, the instance no longer answers to heartbeat messages from the secondary and
+cluster manager, then Red Hat Pacemaker cluster takes the following actions:
+1. If required, virtual server instance 1 gets fenced - to prevent having two active SAP HANA
+primary systems active in the network.
+2. The virtual IP address is then acquired on virtual server instance 2.
+3. The SAP HANA system on virtual server instance 2 is promoted to primary.
+Applications can reconnect to the new primary by using the virtual IP address.
+Figure 2-9 illustrates the scenario after the takeover.
+When virtual server instance 1 is available again, the cluster services are restarted. Then, the
+Red Hat Pacemaker Cluster reintegrates the SAP HANA system as secondary in the
+SAP HANA System Replication scenario and reestablishes the system replication process
+this time into the opposite direction.
+
+Figure 2-9 SAP HANA System Replication: Takeover operation
+
+46
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+Normally, it is not necessary to force a failback to the initial order of primary and secondary
+because both SAP HANA systems have identical configuration and are equally suited to run
+the SAP HANA database.
+Figure 2-10 illustrates the reintegration.
+
+Figure 2-10 SAP HANA System Replication: Reintegration of failed node
+
+High availability protection is reestablished when the secondary is in sync with the primary.
+
+2.3.4 Disaster recovery
+Dependent on the type of SAP application, different layers need to be considered, and
+different technologies are available to protect each layer for disaster recovery (DR).
+
+Database layer
+The Recovery Time Objective (RTO) represents the amount of time an application can be
+down and not result in significant damage to a business and the time that it takes for the
+system to go from loss to recovery. Database-specific replications technologies such as
+SAP HANA System Replication (HSR) enable a typical RTO in the range of minutes to hours,
+depending on the number of pre-deployed application components and the overall site
+readiness on the DR site.
+
+Chapter 2. Architecture for SAP solutions in IBM Power Virtual Server
+
+47
+
+Figure 2-11 illustrates an SAP HANA multitier system replication setup combining both high
+availability and disaster recovery (HA/DR):
+򐂰 A high availability cluster for SAP HANA is deployed in one of the regions.
+The cluster is setup on top of (synchronous) SAP HANA System Replication and
+automated with a cluster manager technology such as Red Hat Pacemaker.
+򐂰 There is an additional (asynchronous) SAP HANA System Replication to another region.
+Communication between the IBM PowerVS workspaces across the two regions involves
+an IBM Transit Gateway service. Communication for SAP HANA System Replication for
+this tier uses the internal IBM Cloud network.
+Alternative methods for achieving disaster recovery at the database layer such as backup and
+restore, or Global Replication Service are possible but will result in higher RTO values.
+Recovery Point Objective (RPO) defines how old the data that is recovered is. It is measured
+as time backward from the failure. For replication technologies, the RPO depends on factors
+including the transaction workload (specifically the amount of write activity), distance, network
+bandwidth, and replication configuration parameters. For backup and restore scenarios, the
+RPO is determined by how long ago the last successful application backup was completed,
+and this is directly impacted by the backup frequency for data and log backups and also
+backup data retention policies.
+
+Figure 2-11 SAP HANA multitier System Replication
+
+Application layer
+In contrast to the database layer, the application layer does not contain business data.
+However, there are specific parameter profiles, applications, and log files that are required to
+start the system on the DR site. Global Replication Service or backup and restore can be
+used to make this data available on the DR site.
+
+NFS layer
+Typically, Network File System (NFS) server file systems can be used to share data across
+the different virtual server instances within an SAP system. IBM PowerVS currently does not
+provide NFS as a service, but Linux virtual server instances can be used to establish NFS or
+HA-NFS. When combined with either Global Replication Service or backup and restore, DR
+protection for NFS is achieved.
+
+48
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+Using Global Replication Service in IBM PowerVS
+IBM PowerVS offers Global Replication Service (GRS), which provides asynchronous data
+replication between two regions. GRS is a valuable feature for disaster recovery as a copy of
+your data is kept in consistent form in a second IBM PowerVS site that is separated from the
+first site by hundreds or thousands of kilometers. GRS uses Global Mirror Change Volume
+replication and consistency groups technologies to protect your data volumes.
+The change volumes are used in Global Mirror relationships to optimize the bandwidth
+requirements. Point-in-time-copies of the source volumes are periodically created at regular
+intervals, and replicated to the secondary site, rather than continuously. This requires less
+network bandwidth, is less costly, and has less impact on the active volumes.
+Consistency Groups ensure that all writes to the volumes in the active site are written
+consistently and in the same order and size to the copy volumes.
+GRS involves two sites that need to be enabled for Global Replication Service, and
+establishes a replication partnership between them. You can then create a
+replication-enabled volume in any of the two sites:
+򐂰 The primary volume is created on the site for which the request is initiated.
+After it is assigned to a virtual server instance within this site, the virtual server instance
+has read and write access to it.
+򐂰 The auxiliary volume is created on the remote partner site.
+No read/ write access is possible, unless the volume group is stopped on the primary site,
+and started on the secondary site.
+Figure 2-12 illustrates a Global Replication Service setup. The active SAP HANA system
+and the SAP application servers are running in the IBM PowerVS workspace in region 1.
+Global Replication Service is established between region 1 and region 2, and all volumes
+containing SAP application-related data are created as replicationEnabled. As a result,
+additional auxiliary volumes are created in region 2 as well. All volumes containing SAP
+application-related data are assigned to a volume group. Any change to the volumes in
+region 1 is replicated consistently using a Global Mirror Change Volume Replication to the
+corresponding volume in region 2. To provide recovery capability, another IBM PowerVS
+system is established in region 2 and uses this data copy.
+
+Figure 2-12 Global Replication Service
+
+Currently, the setup of GRS requires the usage of the IBM Power Cloud API.
+
+Chapter 2. Architecture for SAP solutions in IBM Power Virtual Server
+
+49
+
+On the active site, perform the following steps:
+1. Create a replication-enabled volume.
+When defining the volume, set replicationEnabled flag as True.
+2. Create a virtual server instance and assign the replication-enabled volumes.
+Boot volumes of virtual server instances are always created with replicationEnabled
+False. You can assign a mix of replicationEnabled and not enabled volumes for a virtual
+server instance if they belong to the same storage pool.
+3. Create a volume group (consistency group).
+Use the “Create a new volume group” API, and add all volumeIDs of the
+replication-enabled volumes created before.
+Verify that the volume group is created successfully and is in consistent copying state by
+using “Get volume Group details” using the volume group API.
+On the auxiliary site, perform the following steps:
+1. Onboard the auxiliary volume by using the “Onboard auxiliary volumes to target site” API.
+The onboarding operation creates a volume ID for each onboarded auxiliary volume.
+When the primary volume is a part of a volume group, the onboarding operation creates a
+volume group ID for the existing volume group on the storage host. It adds the new
+auxiliary volume IDs to the new group ID.
+2. Create a standby virtual server instance.
+Assign the onboarded auxiliary volumes. You can create a standby virtual server instance
+with onboarded volumes or attach the onboarded volumes to an existing virtual server
+instance.
+Access the auxiliary volumes on the secondary site:
+1. Stop the volume-group by using the “Perform an action on a volume group” API, and set
+the Access flag as true in the request.
+2. When the primary site is back, you start the volume group by using the “Perform an action
+on a volume group” API and the failback operation resumes replication back to primary
+site.
+
+2.3.5 Backup and recovery
+SAP HANA offers comprehensive backup and restore function to safeguard your database
+and ensure it can be easily recovered. As an alternative to a backup to the file system, you
+can implement an SAP-certified third-party tool. The third-party tool supports the “Backint for
+SAP HANA” interface, which provides full integration with SAP HANA. You then run backup
+and recovery operations directly by using native SQL or from SAP HANA cockpit.
+This section gives an overview on two tools supporting the Backint for SAP HANA interface.
+They can be used for implementing backup and restore scenarios for an SAP HANA system
+on a virtual server instance:
+1. IBM Storage Protect (formerly IBM Spectrum® Protect) for Enterprise Resource Planning:
+Data Protection for SAP HANA, to backup to IBM Storage Protect
+2. SAP HANA Backint Agent for Amazon S3 to backup directly to cloud storage
+IBM Cloud Object Storage is one of the two supported S3 storage types.
+
+50
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+Using IBM Storage Protect as backup server for SAP HANA
+IBM Storage Protect (formerly known as IBM Spectrum Protect) is an enterprise class
+solution for data protection and disaster recovery of virtual, physical, cloud, and
+software-defined environments. It provides agents and integrations for most business
+applications, including SAP systems and SAP HANA databases.
+Tip: IBM Storage Protect is available as a software offering in IBM Cloud.
+When you deploy IBM Storage Protect as a software offering from the IBM Cloud catalog, an
+IBM Storage Protect server gets automatically installed on a virtual server instance in
+IBM VPC. Container storage pools for storing the application backup data are then created on
+IBM Cloud Object Storage.
+
+IBM Cloud Object Storage
+IBM Cloud Object Storage with its global presence and flexible resiliency options, supports
+exponential data growth with best-in-class cost optimization. IBM Cloud Object Storage also
+provides robust data security and can help to make data governance easier. Using built-in
+data lifecycle operations, you can observe and manage your critical workloads. This can
+replace tape, streamline operations, and simplify archival processes for backup and recovery
+use-cases.
+
+Provisioning IBM Storage Protect in IBM Cloud
+Your cloud account needs all of the permissions required to request the different catalog
+products and to run the deployment using the schematics template. Objects created during
+the automated deployment include the following components:
+򐂰 Two virtual server instances and disk volumes in IBM Cloud VPC
+򐂰 IBM Cloud Object Storage buckets
+򐂰 Secure shell (SSH) keys
+򐂰 Log instances, and further additional components required for IBM Storage Protect
+After the IBM Storage Protect server is setup, you configure the network connectivity to your
+IBM PowerVS subnets.
+
+Connecting IBM VPC and IBM PowerVS
+Create cloud connections in IBM PowerVS to establish network connectivity between the SAP
+systems in the IBM PowerVS subnet and the IBM Storage Protect server in IBM Cloud VPC.
+To learn how to establish connectivity, see “Cloud connections” on page 42.
+When the IBM Storage Protect server is deployed and operational, the next step is to prepare
+the server for the client registration
+
+Preparing the IBM Storage Protect server for client registration
+The following steps describe the SAP HANA client configuration in IBM Storage Protect
+server:
+1. Create policy domain for the SAP HANA databases.
+2. Create a policy set in the domain.
+3. Define management classes, and assign a default management class to the policy set.
+
+Chapter 2. Architecture for SAP solutions in IBM Power Virtual Server
+
+51
+
+4. Define backup copy groups in the default management class.
+5. Validate and activate the policy set.
+6. Define the nodes.
+After connectivity is established, you can run the IBM Storage Protect client setup on the SAP
+HANA systems.
+
+IBM Storage Protect Client setup
+Configure the IBM Storage Protect Client on the SAP HANA System:
+1. Install and Configure IBM Storage Protect Client software.
+2. Adapt IBM Storage Protect options file.
+3. Install and Configure IBM Storage Protect for ERP Data Protection for SAP HANA.
+4. Setup Data Protection for SAP HANA.
+5. Optimize Data Protection for SAP HANA for data reduction.
+6. Prepare Data Protection for SAP HANA system copies.
+7. Run the initial SAP HANA backup.
+8. Run Backup of SYSTEMDB.
+9. Run Backup of Tenant DB.
+
+SAP HANA Backup and Recovery using IBM Cloud Object Storage
+The “SAP HANA Backint Agent for Amazon S3” is included in the SAP HANA software
+delivery and allows you to back up and recover SAP HANA databases directly to and from S3
+storage.
+IBM Cloud Object Storage is one of the two supported storage types for the solution.
+The following section describes prerequisites and configuration steps for backup and
+recovery of SAP HANA databases using the “SAP HANA Backint Agent for Amazon S3” with
+IBM Cloud Object Storage.
+Additional Information: For more information, see SAP Note 2935898 - Install and
+Configure SAP HANA Backint Agent for Amazon S3.
+Especially for SAP HANA systems on virtual server instances, this enables a seamless entry
+point with backup and restore scenarios and can ease migrations. The SAP HANA Backint
+Agent stores the backup data in a bucket in IBM Cloud Object Storage.
+
+Configuring IBM Cloud Object Storage in IBM Cloud
+To configure IBM Cloud Object Storage in IBM Cloud, perform the following steps:
+1. Create an IBM Cloud Object Storage instance.
+Either an existing IBM Cloud Object Storage instance can be used, or a new
+IBM Cloud Object Storage instance needs to be created.
+Afterward, create a bucket for the backup data.
+2. Create a bucket.
+– Enter the bucket name for the new bucket.
+Obey the following naming rules:
+•
+52
+
+The bucket name must be unique for the entire IBM Cloud Object Storage system.
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+•
+
+Do not store any personal information within the bucket name.
+
+•
+
+The bucket name can consist of lowercase characters, numbers, and
+nonconsecutive dots and hyphens.
+
+•
+
+The bucket name must start and end in alphanumeric characters.
+
+– Select the region for the bucket.
+Ensure that the region matches with the region of your IBM PowerVS workspace.
+3. Create Service Credentials.
+After the settings are defined, record the following parameters, which will be used to
+configure the SAP HANA Backint Agent profile for the SAP HANA system:
+– Note the bucket name and region.
+– Record its api_key and resource_instance_id.
+– Record the URL of the “Direct” IBM Cloud Object Storage endpoint.
+
+Creating connectivity to IBM Cloud Object Storage
+Perform the following steps to create a connection to IBM Cloud Object Storage:
+1. Connect IBM PowerVS and VPC by creating cloud connections.
+Create cloud connections in IBM PowerVS to establish network connectivity between the
+SAP systems in the IBM PowerVS subnet and the Virtual Private Endpoint in IBM VPC.
+See “Cloud connections” on page 42 on how to establish connectivity.
+2. Create a Virtual Private Endpoint in VPC (to Cloud Object Storage).
+IBM Cloud Virtual Private Endpoint (VPE) is a service to create endpoints on one of your
+VPC subnets to IBM Cloud services. The IBM Cloud network provides secure
+communication between VPE and the IBM Cloud service without additional outbound
+transfer costs. The VPE functions were recently enhanced, and VPE now allows access
+using Direct Link or Transit Gateway, which eliminates the need to configure your own
+reverse proxy.
+To create a Virtual Private Endpoint, complete the following steps:
+a. Select Cloud Object Storage as a service offering.
+b. Select the Direct IBM Cloud Object Storage endpoint according to your region
+(s3.direct.xx-xxx.cloud-object-storage.appdomain.cloud).
+c. Choose Select one later for the IP address that will be bound to the VPE.
+d. Select one subnet for each zone of the multizone VPC and bind it to the VPE.
+In case one of the zones of the multizone region becomes unavailable, the remaining
+zones will continue to provide the VPE.
+e. Create a Security Group rule to allow the necessary communication.
+Communication to the VPE is protected by Security Groups. Allow inbound TCP
+communication through port 443 for the IBM PowerVS subnet.
+
+Chapter 2. Architecture for SAP solutions in IBM Power Virtual Server
+
+53
+
+3. Create a Custom Resolver with DNS Services.
+The attempt to resolve the FQDN of the Direct Endpoint
+s3.direct.xx-xxx-osa.cloud-object-storage.appdomain.cloud by using a standard
+DNS server returns the IBM Cloud Object Storage IP address in the private IBM Cloud
+network. There is no route from IBM PowerVS to the network, so the IBM Cloud Object
+Storage service cannot be reached by using this IP address directly. To solve this issue,
+create a custom resolver, a function within IBM Cloud DNS Services. The custom resolver
+reflects the VPE settings, and returns the IP address of the VPE for the resolution request
+of s3.direct.xx-xxx.cloud-object-storage.appdomain.cloud.
+Instead of creating a VPE, it is possible to rely on local name resolution, and add the IP
+address of the VPE with the label of the FQDN of the Direct Endpoint
+s3.direct.xx-xxx-osa.cloud-object-storage.appdomain.cloud to the hosts file
+/etc/hosts.
+However, keep in mind that the hosts file needs to be updated:
+– When the VPC zone becomes unavailable, and the VPE switches to another zone.
+– When there is any change for the VPE triggering a new IP address for it.
+4. Update DNS resolution on virtual server instances.
+The Custom Resolver is created within the VPC subnet. After the custom resolver is
+created, identify the IP addresses of the resolver locations.
+Login to the virtual server instances, and replace existing name server entries in
+/etc/resolv.conf using the IP addresses of the custom resolvers as new name servers.
+5. Check the connection to the Cloud Object Storage.
+
+Preparing the virtual server instance and the SAP HANA system
+Ensure that the SAP HANA version is SAP HANA 2.0 SPS05 revision 52 or later, and that the
+operating system is SUSE Linux Enterprise Server 15 SP2 or RHEL 8.2 or later.
+“SAP HANA Backint Agent for Amazon S3” requires Python 3.7 including SSL support.
+The Python package delivered within the SAP HANA installation does not include SSL
+support. You need to install a version of Python 3.7 with SSL support. Additionally, Python 3.7
+is not contained in the enterprise OS distributor repositories; you need to download or
+compile it manually.
+
+Installing and configuring the Backint Agent
+The Backint agent package is stored in the “server” directory of the SAP HANA installation
+package. You need to extract it on the virtual server instance of the SAP HANA database
+server. Login as <sid>adm to the virtual server instance and copy the package to a directory of
+your choice. The package contains the hdbbackint script, the Python source code, and the
+Python libraries. Change to the directory with the package, and extract the content.
+The environment variables of user <sid>adm point to the Python package installed with
+SAP HANA. The hdbbackint script uses the Python 3.7 package that was installed. Ensure
+that all paths in the hdbbackint script are correct and include all required directories.
+To enable backup and restore operations for Backint, you need to configure the global.ini
+profile to reference the SAP HANA configuration.
+
+54
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+3
+
+Chapter 3.
+
+Scenarios with IBM Power
+Systems Virtual Server
+This chapter contains some use cases showing how your business can take advantage of
+IBM Power Systems Virtual Servers (IBM PowerVS) in your SAP environment. Included are
+some examples of setting up IBM PowerVS systems to provide important business services
+for your SAP applications.
+The following topics are discussed in this chapter:
+򐂰 3.1, “SAP system migration to IBM PowerVS” on page 56
+򐂰 3.2, “Integration scenarios of SAP-provided solutions” on page 69
+򐂰 3.3, “Building and running regulated SAP workloads in IBM Cloud” on page 86
+
+© Copyright IBM Corp. 2023
+
+55
+
+3.1 SAP system migration to IBM PowerVS
+There are several options to consider when migrating your SAP systems from your
+on-premises infrastructure to a cloud (IaaS) environment. Figure 3-1 provides some sample
+scenarios showing how IBM PowerVS can help you in your transition to SAP S/4HANA with
+the following assumptions:
+򐂰 Your SAP ECC system is deployed in your on-premises environment.
+The SAP ECC system can be moved to the SAP HANA database, or can still be run with
+AnyDB (Oracle, IBM Db2, or Sybase) database underneath.
+򐂰 You intend to move the system to Cloud (IaaS) on IBM PowerVS.
+Either you keep your current SAP software version as intermediate step, or you convert
+the system directly to SAP S/4HANA.
+
+Figure 3-1 Transition options for migrating to SAP S/4HANA on IBM PowerVS
+
+The various methods are discussed in the following list. All of them migrate (or duplicate) the
+entire SAP ECC system using an “all or nothing” approach.
+In a system conversion (sometimes called brownfield) approach you are moving your existing
+SAP ECC solution to SAP S/4HANA on-premise edition. All of the various methods migrate or
+duplicate the entire SAP ECC system using an “all or nothing” approach. Some alternative
+methods that are available are not discussed in detail:
+򐂰 Selective data transition
+Selective data transition is a landscape transformation approach involving tools to
+selectively migrate and transfer configuration, data, and custom code from your old ECC
+system to the new SAP S/4HANA instance.
+򐂰 New implementation (sometimes called greenfield) approach
+In a new implementation, you provision a brand new clean system and configure a new
+system to meet your business requirements.
+
+56
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+򐂰 Creating disaster recovery protection to the IBM PowerVS
+Network connectivity needs to be established between the on-premises systems and the
+IBM PowerVS subnet. In the case where the operating system is AIX, Geographic Logical
+Volume Manager (GLVM) Replication can be used to mirror the data from the on-premises
+system to the remote site. AIX GLVM is a software technology for real-time data mirroring
+over standard TCP/IP networks. Alternatively, backup and restore technologies or
+database replication techniques can be used to establish the system on the remote site.
+For any of these migrations. a large amount of data needs to be transferred from your
+on-premises infrastructure to your PowerVS environment. Network connectivity and database
+size affect the amount of time required to move to the new system. Ensure that sufficient
+bandwidth is available to meet your business objectives. In some of the scenarios, network
+latency is also an important factor in the overall run time.
+
+3.1.1 Lift and shift approach
+When performing a homogeneous system copy, the operating system, database platform,
+and SAP application version remain unchanged. You install a new SAP system with the same
+database and OS in an IBM PowerVS Instance, and the data transfer is typically achieved
+using backup and restore and using database-specific methods. The procedure is embedded
+in SAP Software Provisioning Manager (SWPM) and allows you to change the system
+identifier (SID) of the SAP system. Figure 3-2 illustrates the following steps:
+1. Prepare the target infrastructure in the IBM PowerVS workspace. Deploy virtual server
+instances, storage, and install the SAP system.
+2. Set up connectivity between your on-premises data center and the IBM PowerVS
+workspace. Connectivity is required for data transfer, but you do not need access from the
+target system to the source system for the migration.
+3. Start a Backup of the on-premises SAP ECC system.
+Transfer all required files and directories to the target system in IBM PowerVS. You might
+need additional files to include with the database backup. Ensure that all files are fully
+transferred and are in sync before starting the import.
+4. Start the SAP SWPM homogeneous system copy in IBM PowerVS, and restore the
+backup during the procedure.
+
+Figure 3-2 Homogeneous system copy
+
+Chapter 3. Scenarios with IBM Power Systems Virtual Server
+
+57
+
+3.1.2 Changing the operating system and database
+If you migrate an existing SAP system running on AnyDB to SAP HANA database,
+preparation steps might include a dual-stack split, a Unicode conversion, or a mandatory
+database upgrade of AnyDB. Migration steps might include an upgrade of your SAP software,
+and a database migration to SAP HANA. You use a heterogeneous system copy procedure.
+During the procedure, SAP software version remains unchanged, and the system identifier
+(SID) of the SAP system can be changed.
+A heterogeneous system copy has one of the following characteristics:
+򐂰 The operating system is changed.
+The system copy that is created is called OS migration. This scenario is not relevant for
+database migration to SAP HANA.
+򐂰 The database system is changed.
+The system copy that is created is called DB migration.
+򐂰 Both operating system and database system are changed.
+The system copy that is created is called OS/DB migration.
+Typically, you perform a heterogeneous system copy using a database-independent
+procedure (R3load). For certain OS migrations, a cross-platform backup and restore
+procedure is possible. Use SAP Software Provisioning Manager (SWPM), running on both
+the source and target system, to perform the heterogeneous system copy. You need to
+request a migration key from SAP to run the system copy. Figure 3-3 illustrates the procedure.
+
+Figure 3-3 Heterogeneous SAP system copy
+
+1. Prepare the target infrastructure in the IBM PowerVS workspace. Deploy virtual server
+instances, storage, and install the SAP system.
+2. Set up connectivity between your on-premises data center and the IBM PowerVS
+workspace. Connectivity is required for data transfer, but you do not need access from the
+target system to the source system for the migration.
+
+58
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+3. Start SWPM to run the heterogeneous system copy on the on-premises SAP ECC
+system. SWPM starts R3load processes to export the database.
+Transfer all required files within the export directory to the target system in IBM PowerVS.
+Ensure that all files are in sync and completely transferred before starting the import.
+4. Start the SAP SWPM heterogeneous system copy in IBM PowerVS and import the
+database.
+
+3.1.3 Changing the SAP version and database
+The Database Migration Option (DMO) of SAP Software Update Manager (SUM) combines
+an SAP version change and a database migration in one step. The SAP version change is
+either an Enhancement Package (EHP) update, or it can be a full system conversion to SAP
+S/4HANA. Target database types are SAP HANA, and eventually SAP ASE during an EHP
+update. The SID cannot be changed using DMO of SUM.
+Multiple options are available for DMO of SUM.
+
+DMO with System Move
+Use this process to change the primary application server (PAS) host during the migration
+step. The procedure can be used to move your system to a different network area and data
+center, for example, your IBM PowerVS subnet. Figure 3-4 illustrates the required steps.
+
+Figure 3-4 DMO of SUM with System Move
+
+1. Prepare the target infrastructure in the IBM PowerVS workspace. Deploy virtual server
+instances, storage, and install the SAP system.
+2. Set up connectivity between your on-premises systems and the IBM PowerVS workspace.
+Connectivity is required for data transfer, but you do not need access from the target
+system to the source system for the migration.
+
+Chapter 3. Scenarios with IBM Power Systems Virtual Server
+
+59
+
+3. Start the SAP SUM Tool on the on-premises SAP ECC primary application server.
+Transfer all required files and directories including the SUM folder to the target application
+server in IBM PowerVS. Ensure that all files are in sync and completely transferred before
+you take your systems offline to complete the SUM upgrade process.
+4. Start SUM downtime on the target application server on IBM PowerVS.
+Note: The DMO with System Move migration approach needs thorough planning, including
+copying and synchronizing files between source and target systems.
+
+DMO involving an additional SAP application server on the target site
+This procedure can reduce required downtime. The source database is not exported to
+intermediate files in the file system of the source system, so no transfer of export files is
+required. Instead, the system conversion occurs dynamically using the network connection to
+the source system. All data is extracted, and stored in the SAP HANA target database on the
+Power VS workspace. Figure 3-5 illustrates the required steps.
+
+Figure 3-5 DMO of SUM, running on an additional application server
+
+1. Prepare the target infrastructure in the IBM PowerVS workspace. Deploy virtual server
+instances, storage, and install the SAP system.
+2. Set up connectivity between your on-premises systems and the PowerVS workspace.
+Establish the network connection between your on-premises data center and your IBM
+PowerVS subnet, and make sure that all required ports are accessible. You need to
+establish access from the additional application server to your source system for the
+migration.
+A robust network connection providing low latency and sufficient bandwidth is crucial for
+the procedure. Low bandwidth and high latency have a negative impact on the database
+migration run time.
+3. Install an additional application server for the source SAP ECC system on a virtual server
+instance in IBM PowerVS.
+The new application server needs to communicate with SAP instances and the SAP
+database server of the source system - ensure that all the relevant ports are enabled for
+communication.
+Note: The new additional application server must be used only temporarily for the
+system move operation; restrict any user login to it.
+
+60
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+4. Start the SAP SUM Tool with standard SUM DMO option on the additional application
+server running in IBM PowerVS.
+Perform application-specific post-activities according to the SAP Conversion guide.
+The established system in IBM PowerVS can be used as the base for another conversion step
+later on.
+
+3.1.4 Migrating to SAP HANA v2 on IBM Power
+The migration of data from existing SAP HANA databases to SAP HANA v2 running on IBM
+Power can be relatively easy using the built-in functions of SAP HANA v2. Use either SAP
+HANA Backup and Restore if the source SAP HANA version is v1 SPS10 or later,1 or SAP
+HANA System Replication (HSR) if the source HANA version is v2 SPS01 or later2.
+You can migrate from Scale-out to Scale-up, from Scale-up to Scale-up, or from Scale-out to
+Scale-out. For more information, see SAP Note 2093572 - SAP HANA Migration from
+Multi-Node to Single-Node and SAP Note 2175970 - Recover Single Tenant Database to
+Multiple Tenant Database.
+Other migration use cases exist that are not covered in this document, such as migrating from
+SAP Suite on AnyDB to SAP Suite on SAP HANA. These types of migrations from traditional
+Relational Databases to SAP HANA are usually performed using the Database Migration
+Option (DMO) of SAP Software Update Manager (SUM). The DMO approach is an all-in-one
+approach that allows for the upgrade of the SAP Suite software to the required levels to use
+SAP HANA; the conversion of non-Unicode data to Unicode, if needed; and the migration of
+the data from AnyDB to SAP HANA in one process.
+
+Migrating from scale-out to scale-up
+The best practice for migrating from a scale-out SAP HANA database to a scale-up SAP
+HANA database is to use the SAP HANA Backup and Restore functions that are built into
+SAP HANA Studio, which is tested by SAP before each release is made generally available.
+The reason for this practice is that the backup and restore tools in SAP HANA Studio will
+automatically create the additional SAP HANA database indexservers in the target scale-up
+database to match the number of indexservers used in the source. Each scale-out SAP
+HANA database node in the source has at least one indexserver because the indexserver is
+how the database accesses the actual data.
+When you create the target SAP HANA v2 scale-up database tenant on the target, you might
+need to add some additional services such as xsengine or scriptserver to match the
+services running on the source. For the SQL statements you can use to alter the services
+running on your target system after the restore, see SAP Note 2093572. Generally, the SAP
+HANA database restore function creates missing services on the target scale-up node.
+
+Use Case scale-out to scale-up
+To illustrate this scenario, the following assumptions are made:
+򐂰 The source is an SAP HANA v2 database in 3+1 scale-out (multi-node) cluster
+configuration running SAP HANA v2 database running on x86 bare metal servers.
+򐂰 The target is a scale-up (single node) SAP HANA v2 database on an IBM PowerVS virtual
+server instance.
+1 , SAP HANA Administration Guide for SAP Hana Platform, 2.0 SPS 06,section “Points to Note: SAP HANA on
+2
+
+IBM Power Systems
+SAP HANA System Replication, 2.0 SPS 06, section “General Prerequisites for Configuring SAP HANA System
+Replication”, sub-section “Endianess”l
+
+Chapter 3. Scenarios with IBM Power Systems Virtual Server
+
+61
+
+򐂰 The source database has three indexservers (one per active node).
+The following list describes the best practice for this migration:
+1. Create the target tenant database to receive the database restore using SAP HANA
+Studio SQL Console, for example:
+CREATE DATABASE Database_SID SYSTEM USER PASSWORD password;
+2. Ensure that no changes are being made to the database by stopping all applications that
+are connected to the database.
+3. Back up the source database, and transfer the backup file to the target.
+4. Restore the database backup to the target SAP HANA v2 database tenant previously
+created. At this point, the target scale-up SAP HANA v2 database on Power has three
+separate indexservers inside the single node.
+5. Perform indexserver consolidation and afterward remove the empty indexservers.
+
+Indexserver consolidation
+The final step in this use case is to perform an indexserver consolidation process that moves
+the data from the two extra indexservers into the primary indexserver and then removes the
+two extra indexservers, which are now empty. For more information, see SAP Note 1986612 Removing additional indexserver from single-host system.
+It is recommended that you do the consolidation during the same application downtime as the
+migration to avoid additional outages for the business users of the system. It is also
+recommended that you practice this indexserver consolidation step before the application
+downtime to determine the duration of the downtime:
+1. To find the hostname and port numbers of the target database with multiple indexservers,
+you should run the following SQL command in an SQL Console for the target SAP HANA
+tenant database. This is shown in Figure 3-6.
+select count(*), host, port from m_table_locations group by host, port;
+Figure 3-6 shows the results.
+
+Figure 3-6 List of indexservers
+
+62
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+2. As described in SAP Note 1986612 - Removing Additional Indexserver from
+Single-HostSystem, set the two added indexservers to be inactive, so that tables and
+partitions will be moved off during reorg, using the following SQL commands shown in
+Figure 3-7.
+Port 30,040 in the preceding SQL result is the primary indexserver, so it does not get
+removed. There must be at least one indexserver in the scale-up system.
+CALL SYS.UPDATE_LANDSCAPE_CONFIGURATION('SET REMOVE','ph19nb2:30049');
+CALL SYS.UPDATE_LANDSCAPE_CONFIGURATION('SET REMOVE','ph19nb2:30052');
+
+Figure 3-7 Remove extra indexservers commands
+
+Execute (F8)
+The results are shown in Figure 3-8.
+
+Figure 3-8 Expected result from remove indexserver
+
+It is expected that the CALL function does not return any data in the NAME or VALUE
+fields.
+
+Chapter 3. Scenarios with IBM Power Systems Virtual Server
+
+63
+
+3. Create the REORG job on the target SAP HANA tenant using the SQL command as
+shown in Figure 3-9. The NO_SPLIT option (optional if the target database is SAP HANA
+v2) is used to skip resplitting of tables according to table_placement rules.
+Table_placement rules are not needed for scale-up targets because all the tables should
+exist in a single index server.
+CALL REORG_GENERATE(2,'');
+
+Figure 3-9 REORG_generate command
+
+Execute (F8)
+The results are shown in Figure 3-10.
+
+Figure 3-10 REORG_generate results
+
+4. Run the generated plan using the following SQL command, as shown in Figure 3-11.
+CALL REORG_EXECUTE(?);
+
+Figure 3-11 Execute REORG plan command
+
+Execute (F8)
+The results are shown in Figure 3-12.
+
+Figure 3-12 Results from REORG plan execution
+
+5. For large databases, it can take a long time for the REORG job to finish. Therefore,
+monitor the progress of the REORG.
+Important: Make sure that the reorg ran successfully before removing the empty
+indexservers.
+
+64
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+Track status of the REORG job in SAP HANA Studio under the Landscape tab and the
+Redistribution subtab, or by using the queries in SAP Note 1986612. See Figure 3-13.
+
+Figure 3-13 REORG status started
+
+Important: Wait until the status changes to “FINISHED”. See Figure 3-14.
+
+Figure 3-14 REORG status finished
+
+Alternatively, Figure 3-15 shows another option to determine if the REORG was
+successful:
+SELECT * FROM SYS.REORG_OVERVIEW ORDER BY REORG_ID DESC;
+.
+
+Figure 3-15 SQL SELECT sys.reorg_overview
+
+Wait until the status is 'FINISHED'.
+
+Chapter 3. Scenarios with IBM Power Systems Virtual Server
+
+65
+
+6. After the REORG has finished, the volume status, as seen in Figure 3-16, shows that the
+tables have been removed.
+SELECT * FROM m_volumes;
+
+Figure 3-16 Volume status display
+
+Running the select command again, shows only one index server with tables as seen in
+Figure 3-17:
+select count(*), host, port from m_table_locations group by host, port;
+
+Figure 3-17 Display indexserver after removing extra indexservers
+
+7. If the reorg was not successful, then reset the remove-option from the additional
+indexservers by running the procedure UPDATE_LANDSCAPE_CONFIGURATION with the
+following option:
+CALL UPDATE_LANDSCAPE_CONFIGURATION('RESET REMOVE','hostname:port');
+After you have removed the reset program, you can correct any issues and restart the
+index server consolidation from the beginning.
+
+66
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+8. If the reorg was successful, the additional indexservers can now be removed from the
+landscape using the EXECUTE REMOVE option of the procedure
+UPDATE_LANDSCAPE_CONFIGURATION.
+CALL UPDATE_LANDSCAPE_CONFIGURATION('EXECUTE REMOVE','hostname:port');
+Figure 3-18 lists two index servers to remove from the ph19nb2 server, ports 30049 and
+30052:
+CALL UPDATE_LANDSCAPE_CONFIGURATION('EXECUTE REMOVE','ph19nb2:30049');
+CALL UPDATE_LANDSCAPE_CONFIGURATION('EXECUTE REMOVE','ph19nb2:30052');
+
+Figure 3-18 Remove indexserver command
+
+Check the volume status to see if the extra index servers have been removed. See
+Figure 3-19:
+SELECT * FROM m_volumes;
+
+Figure 3-19 Successful removal of indexserver
+
+9. If necessary, you can move individual tables and partitions using the SQL command line
+with the SAP ABAP Schema User:
+alter table "table_name" move partition 1 to 'host:index_server';
+
+Preferred practice for scale-up to scale-up
+If both the source and target databases are scale-up SAP HANA v2 SPS01 or later, then a
+preferred practice is to set up SAP HANA System Replication (HSR) between the source and
+target and then perform a database take-over. The advantage of HSR is that the amount of
+downtime to switch over from source to target database is much shorter.
+
+Use case scale-up to scale-up
+Source SAP HANA v2 database is scale-up running on a x86 bare metal server, and the
+target is a scale-up SAP HANA v2 database on IBM PowerVS virtual server instances. The
+source database has one indexserver on the single node. The best practice for this example
+is to install SAP HANA v2 that has the same or later version and revision on the target LPAR.
+Then, set up HSR between the source and target and let the systems synchronize. After the
+systems are synchronized, you can choose when to take an application downtime and use
+the HSR tools to perform a takeover of the SAP HANA v2 database by the target. Then, the
+
+Chapter 3. Scenarios with IBM Power Systems Virtual Server
+
+67
+
+application is restarted with the database running on the target SAP HANA v2 on Power
+database. The source database will no longer be used. For high availability, the new IBM
+PowerVS will need to start a new HSR replication to an HA copy running on another IBM
+PowerVS.
+
+Migrating from scale-out to scale-out
+The case of migrating from scale-out to scale-out is a special case where SAP supports
+scale-out SAP HANA v2 databases on IBM Power servers, such as for BW on SAP HANA or
+BW/4HANA or S/4HANA.
+A preferred practice for sizing the SAP HANA v2 database on an IBM Power server for a
+scale-out system is to reduce the number of nodes by making the data footprint on each
+target node larger. The migration approach is still the SAP HANA Backup and Restore
+functions that are built into SAP HANA Studio. This change from n to m nodes, in which n>m,
+requires special handling for the indexservers on the target system. Instead of letting the
+Restore function create the additional indexservers on the target, it is better to manually
+create the additional indexservers on the target nodes, so that the data is restored to the
+target node where the data should reside.
+
+Use case scale-out to scale-out
+Source SAP HANA v2 database is a 6+1 scale-out cluster running on x86 bare metal servers,
+and the target is a 3+1 scale-out SAP HANA v2 database on IBM PowerVS. The source
+database has six indexservers (one per active node). The SAP HANA database administrator
+who is creating the 3+1 scale-out SAP HANA v2 database on a Power server will add an
+additional indexserver to each of the three target nodes. These additions bring the total
+number of indexservers on the target to six, which matches the number of indexservers on
+the source. When the source database backup is restored to the target 3+1 scale-out SAP
+HANA v2 database, the data will automatically flow into the existing indexservers. After the
+restore is completed, you perform the indexserver consolidation process as shown in
+“Indexserver consolidation” on page 62 to leave one indexserver on each target node.
+
+Adding indexserver manually to SAP HANA Database node
+To manually add an indexserver to a SAP HANA Database node, you can use the SQL
+Console on the database to which you want to add indexservers. Run the following SQL
+command as many times as needed to create the needed number of indexservers in that
+database. It is suggested to allow the system to assign the port_number to the indexserver to
+avoid mistakes.
+alter database DB_Name add 'indexserver' at location 'hostname:[port_number]'
+
+68
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+3.2 Integration scenarios of SAP-provided solutions
+SAP is constantly investing in and launching predefined integration products for hybrid
+scenarios. Integration is a key focus area for an enterprise in their journey toward hybrid
+cloud. Figure 3-20 shows how you can integrate your applications with SAP and other third
+parties to meet your business needs.
+
+Figure 3-20 SAP Integration scenarios3
+
+Typical scenarios for integration include the following configurations:
+򐂰 On-Premise-to-On-Premise integration
+򐂰 Cloud-to-On-Premise Hybrid integration
+򐂰 Cloud-to-Cloud integration
+
+3
+
+https://www.sap.com/documents/2020/11/400ae14b-bf7d-0010-87a3-c30de2ffd8ff.html
+
+Chapter 3. Scenarios with IBM Power Systems Virtual Server
+
+69
+
+There are many built in connectors and solutions that can be used in your integrated SAP
+environment. This list shows some of the frequently used Integration Patterns:
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+
+SAP Cloud Connector
+SAP Business Technology Platform
+SAP Integration Suite
+SAP Process Orchestration
+SAP Analytics
+SAP HANA Smart Data Integration
+SAP HANA Smart Data Access
+SAP Master Data Integration
+SAP Ariba Cloud Integration Gateway
+
+These are illustrated in Figure 3-21.
+
+Figure 3-21 Typical integration patterns4
+
+3.2.1 Integrating SAP Business Technology Platform and SAP Cloud
+Connector
+SAP Business Technology Platform
+SAP Business Technology Platform (SAP BTP) is an integrated offering consisting of four
+technology portfolios:
+򐂰
+򐂰
+򐂰
+򐂰
+
+Database and data management
+Application development and integration
+Analytics
+Intelligent technologies
+
+4 https://www.sap.com/documents/2022/07/ae4dd3ef-357e-0010-bca6-c68f7e60039b.html
+
+70
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+The platform offers users the ability to turn data into business value, compose end-to-end
+business processes, and build and extend SAP applications quickly while integrating with
+other cloud and on-premises solutions.
+Hence, SAP BTP incorporates characteristics of both software-as-a-service (SaaS) and
+platform-as-a-service (PaaS). Figure 3-22 shows how SAP BTP fits into the layers of
+application and infrastructure management in your environment.
+
+Figure 3-22 Infrastructure layers and their management
+
+The services and solutions of SAP BTP are available on multiple cloud infrastructure
+providers. The multi-cloud foundation supports different environments, such as Cloud
+Foundry, ABAP, and Kyma, and multiple regions. There is also a broad choice of
+programming languages.
+
+Chapter 3. Scenarios with IBM Power Systems Virtual Server
+
+71
+
+The extension capabilities of SAP BTP provide a standard way for developers to implement
+additional workflows or modules on top of the existing SAP cloud solution. Figure 3-23 shows
+the value proposition for SAP BTP.
+
+Figure 3-23 SA BTP Value proposition
+
+SAP BTP can provide the following solutions:
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+
+Application Development and Automation
+Integration
+Foundation and Cross Services
+AI
+Data and Analytics
+Extended Planning and Analysis
+
+SAB BTP can enable the following capabilities:
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+򐂰
+
+Mobile
+Runtimes and Containers
+Security
+User Experience
+Database and Data Management
+Developer Productivity
+DevOps
+Process Automation
+Internet of Things
+
+At the time of writing, there are a total of 96 Services that are provided by SAP BTP. These
+are described in the Discovery Center.
+
+72
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+As the time of writing, there are four different run times that are available in the multi-cloud
+foundation. The choice between them depends mostly on the preferred price metering and
+the skill set of the developers and their familiarity with the different technologies. Figure 3-24
+provides some decision criteria to consider.
+
+Figure 3-24 SAP BTP environments
+
+SAP BTP, Cloud Foundry environment
+According to the information found in SAP Cloud Platform Rebranding and this
+SAP Community Blog, the SAP Cloud Platform Application Runtime service was renamed to
+SAP BTP, Cloud Foundry runtime to avoid confusion that only this environment runs
+applications, and the other runtime environments do not.
+Cloud Foundry is an open source industry standard for multi-cloud environments that are
+governed by the Cloud Foundry Foundation, where many major industry players such as SAP,
+IBM, and Red Hat actively engage and contribute to the technology. The container-based
+environment runs applications in any programming language and is popular for developing
+and deploying cloud applications in both private and public cloud environments.
+The PaaS offering hides the run time and operating system, virtualization, and hardware so
+that developers can focus on the application and the data. Cloud Foundry also covers the
+deployment and management of the apps, taking care of dependencies by using “buildpacks”.
+More information can be found at Fundamentals of the SAP BTP, Cloud Foundry environment
+in the Tutorial Navigator and SAP Business Technology Platform on the SAP Help Portal.
+
+SAP BTP, serverless runtime
+Serverless computing is a part of cloud computing that supplements “traditional” cloud
+computing. There are, of course, servers that run the serverless computing environment. It is
+“serverless” in the sense that developers do not need to care about the specifics of the server
+run time and that the service does not run until an execution request comes in. Only then is a
+container provided for the service and the service is started to run the request.
+SAP BTP, serverless runtime as described in this SAP Community blog is based on Cloud
+Foundry and has the following advantages:
+򐂰 Potentially lower costs
+Companies pay for resource consumption, not idle times.
+
+Chapter 3. Scenarios with IBM Power Systems Virtual Server
+
+73
+
+򐂰 Fully managed scaling and management
+SAP is responsible for scaling and managing the service based on business needs.
+򐂰 Decreased development complexity
+Because of the focus of serverless runtime on extensions, developers do not need to think
+about infrastructure-related topics, such as connectivity or server bootstrapping, and can
+focus instead on the required business logic for their extension.
+򐂰 Code porting
+Due to similar technology standards and programming concepts, you can port code from
+SAP BTP, serverless runtime to SAP BTP, Kyma runtime, and vice versa. Normally, the
+application code needs no changes.
+The goal of SAP BTP, serverless runtime is to become the lightweight option for extending
+business systems similar to the extension spots in on-premises systems for ABAP.
+Extensions are integrated with the standard business processes and systems but are
+decoupled from the digital core. They allow companies to keep SAP S/4HANA clean of
+custom code.
+The list from SAP BTP, Serverless Runtime: Scope and Limitations can help you make a clear
+distinction of when developers should choose SAP BTP, Cloud Foundry runtime. Consider the
+following scope and limitations:
+򐂰 The programming language is node.js 8 and node.js 10.
+򐂰 Here are the allowed limits for size and execution time of the service:
+– The maximum size of the source code for a project is 50 MB.
+– The memory limit for a function is 512 mebibytes.
+– A single HTTP request and its response must not exceed 50 MB.
+– It is recommended that the back-end processing time does not exceed five minutes for
+the corresponding OData request to be processed as expected.
+򐂰 Push notification scenarios are not supported.
+򐂰 Consider workload and performance considerations:
+– The inbound rate limit is 100 requests per second.
+– Potentially higher latency exists for the start of the service (when it has been “spun
+down”).
+򐂰 If the service is in heavy use because it is in the center of a business-critical workflow, the
+pay-per-use cost might exceed the cost for a dedicated subscription.
+For more information, refer to the blogs “SAP Cloud Platform Serverless Runtime: Getting
+Started” and “Using SAP Cloud Platform, Serverless Runtime to Build Lightweight
+Extensions” on SAP Community.
+Important: Per SAP documentation: As of Q3 of 2021, SAP BTP, serverless runtime is not
+available for purchase. It remains available and supported for existing customers until
+further notice.
+The serverless function can now be implemented in the SAP BTP, Kyma runtime –
+described in the section “SAP BTP Kyma runtime” on page 75.
+A migration strategy is discussed in SAP BTP Serverless Runtime to SAP BTP Kyma
+Runtime Migration Examples.
+
+SAP BTP ABAP environment
+This environment is based on Cloud Foundry as well, but it provides a runtime that is
+specifically targeted at the community of ABAP developers who can create cloud extensions
+for on-premises ERP systems.
+74
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+Additionally, you can use it to move customizations written in ABAP into the cloud. The
+software stack contains standard technology components that are familiar from the
+stand-alone application server for ABAP. The ABAP environment supports the ABAP RESTful
+application programming model, including the SAP Fiori design system and core data
+services. Note that there are some restrictions due to the cloud nature of the environment.
+Here are some examples of those restrictions:
+򐂰 SAP BTP ABAP environment presents its services through OData or plain HTTP only.
+User interface technologies in ABAP such as SAP GUI, Web GUI, the Web Dynpro
+development environment, or Business Server Pages are not available. The presented
+services can then be used by a user interface for SAP Fiori or any other web-based UI
+framework.
+򐂰 Statements that might harm cloud operations or cannot be controlled (such as local file
+access, kernel calls, EXEC SQL, GENERATE REPORT, and others) are excluded.
+There is a list of allowed commands in ABAP that is updated continuously, and developers
+can check in ABAP test cockpit if their custom code contains unsupported commands, with
+recommendations for how to change it.
+For details, refer to the SAP blogs “Cloud Platform, ABAP Environment” and “ABAP Custom
+Code Analysis Using SAP Business Technology Platform,” ABAP Platform for SAP
+developers. Also, see ABAP Environment on the SAP Help Portal.
+
+SAP BTP Kyma runtime
+Before discussing SAP BTP Kyma runtime, it is beneficial to discuss the difference between
+Cloud Foundry and Kubernetes. Both are open source projects:
+򐂰 Cloud Foundry is a PaaS to deploy and operate applications. The Cloud Foundry
+Foundation oversees the project.
+򐂰 Kubernetes is an infrastructure platform for automating deployment, scaling, and
+management of containerized workloads. The Cloud Native Computing Foundation
+oversees the project.
+Cloud Foundry and Kubernetes differ in their focus and goals. The focus of Cloud Foundry is
+applications, but the focus of Kubernetes is containers. Cloud Foundry can run on top of a
+Kubernetes cluster.
+The Kyma environment for SAP BTP provides a fully managed Kubernetes runtime based on
+the open source project Kyma. This cloud-native application allows developers to extend SAP
+solutions with serverless functions and combine them with containerized microservices. To
+set this in the context of the other environments for SAP BTP, the Kyma environment provides
+the middleware and runtime layer and thus has the same role as Cloud Foundry in the other
+multi-cloud environments. See Figure 3-22 on page 71 to understand the application layers.
+The offered function ensures smooth consumption of SAP and third-party applications,
+running workloads in a highly scalable environment and building event-based and API-based
+extensions.
+
+Chapter 3. Scenarios with IBM Power Systems Virtual Server
+
+75
+
+The Kyma environment consists of a provisioned Kubernetes cluster with Kyma installed. The
+Kubernetes cluster is provisioned through project “Gardener” on a cloud provider and region.
+To obtain the available regions and providers, see Regions for the Kyma Environment. The
+open source project Kyma is installed in its most recent version on the provisioned cluster.
+Every Kyma environment runs on a single Kubernetes cluster that is created for a specific
+subaccount. However, the configuration of the Kyma environment allows it to connect to a
+multitude of SAP systems. When connecting Kyma to SAP systems, various formations can
+be built that aggregate the SAP systems and the environment, depending upon the business
+use cases.
+SAP systems connected to a Kyma environment expose APIs and events collected in the
+service catalog. To extend the existing logic of these SAP services, developers can build
+serverless applications that are called “functions” and trigger them to react to particular
+events or calls to the APIs. The Kyma environment can also be used to deploy microservices
+or even build full-stack applications.
+For more details, refer to Fundamentals of the SAP BTP, Cloud Foundry environment in the
+Tutorial Navigator and the SAP blogs “Accessing Kyma Kubernetes Clusters Using Command
+Line - Introduction to Kubectl,” “Kyma - Kubernetes on SAP BTP: Where's My Data?,” and
+“Kyma for Dymmies: First Simple App in SAP Cloud Platform, Kyma Runtime.”
+
+SAP Cloud Connector
+The SAP Cloud Connector facilitates establishing a secure connection between BTP
+applications (cloud solutions from SAP) and on-premises systems without them being directly
+exposed to the internet. Figure 3-25 illustrates the architecture of the SAP Cloud Connector.
+
+Figure 3-25 SAP Cloud Connect architecture
+
+The cloud connector comes as a standard part of SAP Connectivity service. It establishes
+secure technical connectivity between cloud solutions from SAP and protected on-premises
+networks that cannot be accessed directly from the internet.
+
+76
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+The cloud connector can be used as the only integration method, when, for example,
+self-written services have a known API that can be accessed directly. Most of the time, iFlows
+in SAP API Business Hub are the only way to integrate services on SAP BTP, with the help of
+the Cloud Integration capability of SAP Integration Suite or SAP Process Orchestration. But
+there are exceptions, such as the replication of the SAP Master Data Integration service. The
+cloud connector still plays an important role in all scenarios as the connectivity layer in the
+hybrid cloud.
+A cloud connector acts as a proxy, a special kind of proxy that is referred to as a “reverse
+invoke proxy” as shown in Figure 3-26. A reverse invoke proxy works on the concept like a
+reverse proxy, it forwards incoming requests from an external system to on-premises systems
+and web servers, camouflaging the target. There are other fundamental differences:
+򐂰 The SSL connection is initially started (“invoked”) by the reverse invoke proxy, hence it
+starts like an outbound traffic, unlike reverse proxy, and the external system needs to
+accept the SSL connection request.
+򐂰 This established SSL connection stays open and is used for both inbound and outbound
+traffic.
+򐂰 Initial outbound requests are treated normally like any http(s) protocol communication.
+򐂰 Inbound requests are masked as replies to outbound requests and need to be translated
+by the reverse invoke proxy as inbound requests to the initial outbound response and
+forwarded to the correct application.
+򐂰 The cycle continues in the same fashion, with the answer to the inbound request being
+translated by the reverse invoke proxy into a “special” outbound request, so that the
+external server on the internet understands that this is the reply to the previous inbound
+request.
+
+Figure 3-26 Reverse invoke proxy
+
+Compared to the traditional approach of exposing the on-premises system by opening firewall
+ports and setting up reverse proxies the Cloud Connector provides the following benefits:
+򐂰 The Cloud Connector provides secured connection by using the “TLS tunnel” concept.
+After the connectivity to BTP is established, new connections can be established easily by
+going through firewall or proxy changes.
+򐂰 The Cloud Connector supports a wide range of protocols, such as https and RFC protocol
+for native access to ABAP systems by invoking function modules. It also supports
+on-premises databases or BI tools to SAP HANA databases in the cloud.
+
+Chapter 3. Scenarios with IBM Power Systems Virtual Server
+
+77
+
+򐂰 The Cloud Connector supports Secure Network Connection (SNC) enabled RFC
+communication to an ABAP backend system.
+򐂰 The Cloud Connector has an Access Control list both for “Cloud-to-On-premise” and
+“On-premise-to-Cloud,” so an enterprise can exercise control.
+򐂰 The Cloud Connector supports Basis Authentication and allows propagation of the identity
+of cloud users to on-premises systems (Principle Propagation).
+򐂰 The Cloud Connector can provide a High Availability Architecture on Master-Shadow
+concept is available. The Shadow Instance takes up the role of Master if there is hardware
+failure or nonavailability of Master instance.
+򐂰 The Cloud Connector is a lightweight Installation, with simple configuration and
+administration (Cloud Connector is based on Tomcat), which means that the Cloud
+Connector comes with a low TCO.
+򐂰 A single Cloud Connector can connect to an arbitrary number of SAP and non-SAP
+systems.
+򐂰 In a hybrid cloud scenario, a single Cloud Connector can be used to connect SAP BTP
+applications to systems and applications in cloud environments as well. Hence, it is a
+tailored fit for cloud scenarios.
+򐂰 SAP provides the same support for a Cloud Connector as other SAP Products like
+S/4HANA, SAP PO, etc.
+Figure 3-27 shows the connectivity options that are provided by the SAP Cloud Connector.
+
+Figure 3-27 SAP Cloud Connector connectivity
+
+78
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+The default ports are 80 for HTTP and 443 for HTTPS. RFC communication gateway port
+(default: 33+<instance number>) and an arbitrary message server port is used. For a
+connection to a SAP HANA Database (on SAP BTP) by using JDBC, an outbound port is
+used. Mail (SMTP) communication is not supported, but SFTP and SMTP connections can be
+configured by using TCP. This is shown in Figure 3-28.
+
+Figure 3-28 BTP port configuration
+
+IBM Power VS and SAP Cloud Connector
+Cloud Connector is now available and supported on IBM Power, thereby helping enterprises
+in their journey toward Hybrid Cloud. The SAP Cloud Connector must be at least supported
+version 2.15 for support on Power processors, as shown in Figure 3-29.
+
+Figure 3-29 IBM PowerVS and Cloud Connector
+
+3.2.2 SAP Integration Suite and SAP Process Orchestration
+The SAP landscape includes many services and capabilities that need to be connected to
+provide a complete solution to meet your business requirements. Those services can include
+non-SAP applications, services that are provided by multiple trading partners, and
+inter-department connections. SAP Integration Suite and SAP Process Orchestration are two
+products that provide this capability. They are discussed and compared in this section.
+
+SAP Integration Suite
+SAP Integration Suite is an integration Platform-as-a-Service (iPaaS) solution based on the
+SAP Business Technology Platform (BTP), which is used to develop and manage
+enterprise-wide integration across cloud and on-premises (hybrid cloud) environments.
+
+Chapter 3. Scenarios with IBM Power Systems Virtual Server
+
+79
+
+SAP Integration Suite connects and contextualizes processes and data to integrate across
+the diverse applications in the landscape. It contains pre-built and predefined integration
+content ready for use, which helps to reduce effort and turnaround time for deployment.
+Organizations can assemble, publish, and monetize reusable APIs and integrations across
+their enterprise for all its business processes end-to-end. This is shown in Figure 3-30. The
+article at SAP for Consumer Products Solutions in Hybrid Cloud with IBM Power - Overview
+Technical Level has additional information.
+
+Figure 3-30 SAP Integration Suite
+
+Capabilities
+SAP Integration Suite connects processes and data to enable new content-rich applications
+to be assembled faster with less dependence on IT. Pre-built integration packs along with
+existing application content, can be composed to deliver new outcomes with less involvement
+by integration experts. SAP Integration Suite provides 65+ standard adapters ready for use
+and more than 170 non-SAP connectors. According to the article SAP Integration Suite, the
+SAP Integration suite provides the following capabilities for your SAP environment:
+򐂰 Cloud Integration
+Integrate SAP and non-SAP, cloud, and on-premises applications and process messages
+in real-time scenarios spanning different companies, organizations, or departments within
+one organization
+򐂰 API Management
+Get access to scalable and secure digital assets through application programming
+interfaces (APIs) and use these
+򐂰 Open Connectors
+Build seamless integrations with over 160 non-SAP applications by using pre-built
+connectors
+
+80
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+򐂰 Integration Advisor
+Accelerate the development of business-oriented interfaces and mappings, generate
+runtime artifacts quickly, and significantly reduce efforts.
+򐂰 Trading Partner Management
+Manage B2B relationships with multiple trading partners through this user interface that
+helps simplify the B2B communication between trading partners.
+򐂰 Integration Assessment
+Define the integration landscape, based on the Integration Solution Advisor Methodology
+(ISA-M).
+
+Security
+SAP Integration Suite ensures cloud security at multiple levels with capabilities like tenant
+isolation; usage of only secure communication protocols such as TLS and HTTPS; digital
+encryption and digital signatures of messages; access management, and so on. It also
+adheres to the SAP global data protection and privacy guidelines.
+
+Pricing
+To use SAP Integration Suite, the customer must have an SAP BTP account with an
+entitlement to SAP Integration Suite. You can purchase an SAP BTP account from your SAP
+sales representative, see SAP Business Technology Platform.
+For more information, see SAP Note 2903776 - SAP Integration Suite - Service Plans,
+Upgrade Paths, and Regions Availability.
+
+SAP Process Orchestration
+Just like SAP Integration Suite, SAP Process Orchestration is a collection of services in an
+on-premises environment. SAP Process Orchestration consists of SAP Process Integration
+(PI), SAP Business Process Management (BPM), and SAP Business Rules Management
+(BRM).
+SAP Process Orchestration is basically a successor of SAP PI; hence it is a tool for
+integration of processes and applications for end-to-end business process integration.
+It also acts as a runtime component of the Cloud Integration capability of SAP Integration
+Suite (starting from SAP Process Orchestration software, release 7.5) for the reuse of cloud
+integration content.
+In the current changing SAP environments, SAP PO is a more on-premises focused product
+and hence does not support cloud to cloud integration. It is more effective when using
+SOAP-based integration.
+SAP Integration Suite has been shown to be effective and has the potential to manage SAP
+integrations more effectively. Hence hybrid cloud customers should strongly consider using
+the SAP Integration Suite instead of SAP PO.
+
+Chapter 3. Scenarios with IBM Power Systems Virtual Server
+
+81
+
+3.2.3 Analytics Integration
+The analytical capabilities of the SAP Business Technology Platform define a category of
+services for data analytics offered by SAP. At the time of writing, this primarily refers to SAP
+Analytics Cloud; however, the analytical capabilities of SAP BTP are not limited to SAP
+Analytics Cloud.
+SAP Analytics Cloud is a new generation of Software-as-a-Service (SaaS) that is capable of
+catering to all of the analytics needs of an enterprise. It is a type of end-to-end cloud solution
+that brings together business intelligence, augmented analytics, predictive analytics, and
+enterprise planning in a single system.
+SAP provides a wide range of toolsets, which enable an enterprise to connect both its
+on-premises and cloud data sources to SAP Analytics Cloud. The data in Figure 3-31 is taken
+from an SAP Analytics Cloud Help article.
+
+Figure 3-31 SAP Analytics Cloud
+
+Connection Types
+򐂰 Live Data Connections
+Live data connections between on-premises and cloud systems are created for
+consumption. In this scenario, data models are created from data sources from
+on-premises and cloud systems and online analysis is performed without data being
+moved to SAP Analytics Cloud. Also, this method ensures recent data from the source is
+immediately available for consumption.
+򐂰 Import Data Connection
+Connections are created for a data source to facilitate data acquisition by SAP Analytics
+Cloud. In this scenario data from the source is imported (copied) to SAP Analytics Cloud.
+The changes that are made to the data in the source system after copy do not affect the
+imported data in SAP Analytics Cloud.
+
+82
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+򐂰 Export Data Connections
+SAP Analytics Cloud also includes a default export connection to Google Drive and
+supports Odata service for the export of data to back-end systems, which is illustrated in
+Figure 3-32.
+
+Figure 3-32 SAP Analytics Cloud
+
+3.2.4 Data Integration strategy
+Data integration is an integral function in your SAP environment. Needing access to data that
+exists in multiple formats is a key requirement. This section discusses some of the options
+available for you as you integrate data from other sources into your SAP workflow.
+
+SAP HANA Smart Data Integration
+SAP HANA Smart Data Integration (SDI) is able to load data, in batch or real-time, into SAP
+HANA (on-premises or in the cloud) from various sources by using pre-built and custom
+adapters.
+SAP HANA Smart Data Integration can enhance, cleanse, and transform data to make it
+more accurate and useful. SAP HANA on-premise or in the cloud can efficiently connect to
+any source to provision and cleanse data for loading. For supported systems, data can even
+be written back to the original source.
+A subset of SDI benefits includes the following characteristics:
+򐂰 Supports diverse SAP source systems at both application and DB level
+򐂰 Supports diverse source platforms (cloud and on-premises)
+򐂰 Provides a native offering of the SAP HANA platform, without additional license costs
+򐂰 Caters to different frequencies of data transmission (real-time and batch loads)
+򐂰 Supports changed data capture (CDC) which facilitates the ability to do incremental loads
+that update only the changed data instead of full refresh
+򐂰 Provides a stable performance with high data volumes during full extract and delta extracts
+򐂰 Allows push of data from a source system and pull of data from a target system
+򐂰 Helps ease implementation with web-based development workbench and maintenance
+򐂰 Ensures secure data transmission (encryption and masking)
+򐂰 Provides ease of configuration and setup
+
+Chapter 3. Scenarios with IBM Power Systems Virtual Server
+
+83
+
+SDI can provide the following characteristics:
+򐂰 Data exchange capability with any SAP source system in which the target can have an
+SAP system on SAP HANA or AnyDB
+򐂰 Batch mode data replication
+򐂰 Data compression to help optimize the data transfer rate over the internet
+򐂰 Lightweight client Data Provisioning Agent, which is a lightweight component that hosts
+data provisioning adapters, enabling data federation, replication, and transformation
+scenarios for on-premises or in-cloud deployments
+򐂰 A standard ready-to-use adapter for integration, with no development requirements
+򐂰 Data manageable data volume
+򐂰 Secure data transmission, using the HTTPS protocol
+򐂰 Customer control on data movement (outbound from source) such that the agents are
+deployed on the source customer end
+Figure 3-33 shows some SDI scenarios.
+
+Figure 3-33 SAP HANA SDI scenarios5
+
+5
+
+84
+
+https://help.sap.com/docs/HANA_SMART_DATA_INTEGRATION/7952ef28a6914997abc01745fef1b607/05a0c4823af94
+e238120b8933a8733f2.html?version=2.0_SPS05
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+Key components
+The key components of data provisioning are described in the following list:
+򐂰 Data Provisioning Server
+A component or function that comes with SAP HANA DB installation but must be activated
+for use. It provides native connectivity between data sources and the Data Provisioning
+Agent (which replays the data to the target).
+򐂰 Data Provisioning Agent
+(Commonly referred to as DP Agent) Through the Data Provisioning Agent, the
+preinstalled Data Provisioning Adapters communicate with the Data Provisioning Server
+and source. It is a best practice that the DP Agent be installed at the same physical
+location but not on the same host as the source database. You can have one DP Agent
+registered in multiple SAP HANA instances. DP Agent can be installed on IBM Power
+(PPC64LE) with SUSE Linux Enterprise Server 12.
+򐂰 Data Provisioning Adapters
+These adapters connect to various sources to move data into SAP HANA and other use
+cases. For a list of predefined adapters see SAP HANA Smart Data Integration.
+When the SAP HANA database is deployed on-premises, the Data Provisioning Server within
+SAP HANA connects to the DP Agent by using the TCP/IP protocol. For Cloud deployment of
+SAP HANA DB, it uses HTTPS connection or JDBC WebSockets (WS). JDBC WS is also
+used for SAP HANA Services on SAP BTP in the Cloud Foundry environment scenario.
+SAP HANA SDI follows standard SAP HANA security concepts, which conform to the legal
+requirements of data protection. It also supports SSO and other features. Both the source
+database and SAP HANA database access credentials are stored in the Data Provisioning
+Agent secure storage. It also uses the https-based secure communication channel.
+Note: The SDI ABAP Adapter might cause performance issues while extracting very large
+data volumes. This can be overcome by splitting the first-time data load into smaller parts.
+Adapters like SAP HANA Adapter support real-time CDC.
+
+SAP HANA smart data access
+This process enables direct data access to the source without copying data into SAP HANA.
+This process does not require any installations of agents; a simple ODBC connection with the
+source system makes the data available. Data collected from sources remains in virtual
+tables.
+SAP HANA smart data access (SDA) supports only remote sources between SAP HANA
+instances. At the time of writing, SDA does not support remote sources to on-premises
+databases from SAP HANA instances.
+This alternative is best used when the SAP HANA database is on-premises, or the volume of
+data being accessed is low, or there is a specific need for live data.
+
+SAP Master Data Integration
+SAP Master Data Integration service is a multi-tenant cloud service for master data
+integration. It provides a consistent view of master data across a hybrid landscape:
+򐂰 Business partner data and product master data replication through SOAP interfaces and
+REST interfaces compliant with the Operational Data Model
+
+Chapter 3. Scenarios with IBM Power Systems Virtual Server
+
+85
+
+򐂰 Read Access Logging for sensitive data
+򐂰 Extensibility of the aligned business model with fields and entities to support business
+requirements
+This service provides a scalable and robust technical means for publishing master data
+creation or modification events from individual, connected applications. This service can
+significantly enhance the value that you can get from your data.
+
+3.3 Building and running regulated SAP workloads in IBM
+Cloud
+Financial institutions and regulated industries face the challenges of protecting data from
+external attacks and maintaining compliance with industry and regulatory requirements.
+IBM Cloud offers key features for regulated workloads:
+򐂰 IBM Cloud provides an isolated, private cloud environment.
+򐂰 You can establish segmentation between management clusters, workload clusters, and
+edge clusters for workload isolation and strict separation of duties.
+򐂰 You can build isolated security zones between deployment environments and between the
+different application tiers.
+򐂰 You can establish enterprise connectivity through a private network:
+– Direct Link provides consistent, higher-throughput connectivity between the enterprise
+network and the IBM Cloud private network backbone.
+– Alternatively, mobile users from outside the enterprise network can use VPN access to
+IBM Cloud.
+Temporary VPN access can be enabled for specific users to allow out-of-band
+management and emergency maintenance through an encrypted VPN tunnel.
+IBM Cloud helps you with automated procedures to set up a secure environment for running
+regulated SAP workloads. The procedure uses IBM Cloud Schematics with Terraform for the
+automated setup.
+At the time of writing, the procedures are available directly from the IBM Cloud catalog as a
+Beta.
+
+86
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+Figure 3-34 illustrates the required steps to setup a secure environment for the regulated SAP
+workloads in IBM Cloud and IBM PowerVS.
+You deploy the three services in sequence:
+1. Secure infrastructure on IBM Virtual Private Cloud (VPC) for regulated industries
+2. Power infrastructure for regulated industries
+3. SAP on secure IBM PowerVS
+
+Figure 3-34 Steps to set up a secure environment for regulated SAP workloads
+
+Secure infrastructure on VPC for regulated industries
+The service “Secure infrastructure on VPC for regulated industries” deploys a secure
+infrastructure in IBM VPC. The secure infrastructure, which is sometimes called a Landing
+Zone is aligned to the “IBM Cloud for Financial Services reference architecture” and creates
+multiple VPC environments with multiple subnets. Optionally, the VPCs can be multi-zoned for
+high-availability.
+
+Chapter 3. Scenarios with IBM Power Systems Virtual Server
+
+87
+
+Key aspects of the secure infrastructure on VPC are segmentation, isolation, and security. For
+details about the creation of the secure infrastructure in VPC, see Figure 3-35.
+
+Figure 3-35 Secure landing zone in VPC
+
+Segmentation provides workload isolation and a strict separation of duties. There are isolated
+security zones between different environments and between the application tiers.
+Components that are related to inbound and outbound communication are placed into the
+edge VPC. Examples of those are SAP Router, SAP Web Dispatcher, SAP Cloud Connector.
+The SAP application servers and SAP database servers will be placed into IBM PowerVS
+workspace. There is a strict physical and logical separation between the different VPCs; their
+virtual network is logically isolated from all other public cloud tenants. The VPC network
+elements provide strict network isolation:
+򐂰 Security groups define inbound and outbound traffic that is allowed for virtual server
+instances.
+򐂰 Each subnet has Access Control Lists (ACLs) that limit inbound and outbound traffic.
+A virtual private endpoint provides secure network connectivity to IBM Cloud services.
+Bastion hosts deployed to the management VPC are used for controlled access to the
+environment and recording of changes. Access to the operating system of any virtual server
+instance is only possible through a Bastion host in the management VPC. Transit gateway
+secures connectivity between different VPCs and IBM PowerVS subnets. Connectivity to the
+enterprise network (on-premises) is implemented by using Direct Link or VPN. Additional
+VPNs might be used for secure connectivity for mobile employees. Other features are also
+provided:
+򐂰 IBM Cloud Flow Logs for VPC enables collecting, storing, and reporting about inbound
+and outbound Internet Protocol (IP) communication to and from your VPC. Security
+groups define inbound and outbound traffic allowed for virtual server instances.
+򐂰 Activity Tracker logs events from enabled services.
+IBM Cloud Flow Logs for VPC and Activity Tracker are included in the configuration. Further
+security services, such as Hyper Connect Crypto Service (HCCS), can be optionally added.
+The service “Secure infrastructure on VPC for regulated industries” creates the following
+components:
+򐂰 Virtual private clouds
+88
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+Virtual private clouds including the underlying network components
+򐂰 Virtual server instances
+Secure and protected virtual severs for the workload, which are automatically created and
+configured
+򐂰 Flow logs and activity tracker
+Cloud Object Storage instance and buckets to support flow logs and activity tracker
+Either an existing key management system (Key Protect Instance, Hyper Protect Crypto
+Service) can be used, or a new Key Protect instance for your key management is created.
+When you finish deploying the “Secure infrastructure on VPC for regulated industries”, the
+next step is to deploy the Power infrastructure for regulated industries to extend the scenario.
+
+Power infrastructure for regulated industries
+Using “Power infrastructure for regulated industries”, you prepare the basic environment that
+will be used to deploy your SAP systems. See Figure 3-36 illustrating creation of a Power
+infrastructure for regulated industries.
+
+Figure 3-36 Power Infrastructure for regulated industries
+
+On top of the VPCs created before, Power Infrastructure for regulated industries creates the
+following components:
+򐂰 An IBM PowerVS workspace with two private networks
+A management network and a backup network
+򐂰 A Cloud Connections or Direct Link Connect
+Provides connectivity between the IBM Cloud Management VPC and Power Virtual
+Service networking zones. The Cloud connections are attached to a transit gateway, and
+to the IBM VPC networks.
+򐂰 An SSH key for accessing the virtual server instances.
+
+Chapter 3. Scenarios with IBM Power Systems Virtual Server
+
+89
+
+The service installs and configures Squid Proxy, DNS Forwarder, NTP Forwarder, and NFS
+on a virtual server instance in the workload VPC. A virtual server instance in the management
+VPC gets created as bastion host and then allows secure access to the virtual server
+instances in the IBM PowerVS workspace. The workload VPC provides virtual machines for
+critical services like Domain Name Service (DNS), Lightweight Directory Access Protocol
+(LDAP), and Network File System (NFS). Those services are accessible from the virtual
+server instances in the IBM PowerVS workspace.
+After you have deployed Power infrastructure for regulated industries, you can then deploy
+SAP on secure IBM PowerVS as the third and last step.
+
+SAP on secure IBM PowerVS
+SAP on secure IBM PowerVS deploys and prepares the virtual server instances for the
+SAP HANA and SAP application server workloads. When the deployment is complete, you
+install the SAP software by using the standard SAP tools.
+Figure 3-37 illustrates the installation of the virtual server instances.
+
+Figure 3-37 SAP on secure IBM IBM PowerVS
+
+Complementing the SAP system environment
+The SAP application servers and SAP database servers of the back-end systems are now
+deployed to virtual server instances in IBM PowerVS. You can add additional components
+according to your needs.
+Deploy communication related components such as SAP Router, SAP Web Dispatcher, or
+SAP Cloud Connector to virtual server instances in the Edge VPC.
+Virtual private endpoints for cloud services are placed into the workload VPC. You can extend
+the workload VPC by adding virtual server instances for specific third-party components,
+which are available only on x86 servers.
+
+90
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+The Bastion host, which is used as the entry point for operating system access, is located in
+the management VPC. You might add further required management components to the
+management VPC. See Figure 3-38 for an example of such a scenario.
+
+Figure 3-38 Extended SAP system setup
+
+Chapter 3. Scenarios with IBM Power Systems Virtual Server
+
+91
+
+92
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+Related publications
+The publications listed in this section are considered particularly suitable for a more detailed
+discussion of the topics covered in this paper.
+
+IBM Redbooks
+The following IBM Redbooks publications provide additional information about the topic in this
+document. Note that some publications referenced in this list might be available in softcopy
+only.
+򐂰 SAP HANA Data Management and Performance on IBM Power Systems, REDP-5570
+򐂰 SAP HANA on IBM Power Systems Architectural Summary, REDP-5569
+򐂰 SAP HANA on IBM Power Systems Backup and Recovery Solutions, REDP-5618
+򐂰 SAP HANA Platform Migration, REDP-5571
+򐂰 Why IBM Hybrid Cloud for Your Journey to the Cloud?, REDP-5653
+You can search for, view, download or order these documents and other Redbooks,
+Redpapers, Web Docs, draft and additional materials, at the following website:
+ibm.com/redbooks
+
+Online resources
+These websites are also relevant as further information sources:
+򐂰 SAP for Consumer Products Solutions in a Hybrid Cloud with IBM Power - Overview
+Technical Level
+https://www.sap.com/documents/2022/07/ae4dd3ef-357e-0010-bca6-c68f7e60039b.html
+򐂰 SAP for Consumer Products Solutions in a Hybrid Cloud with IBM Power - Reference
+Architecture
+https://www.sap.com/documents/2021/12/42ed457a-0a7e-0010-bca6-c68f7e60039b.html
+򐂰 SAP Product Portfolio Website
+https://www.sap.com/products.html
+
+Help from IBM
+IBM Support and downloads
+ibm.com/support
+IBM Global Services
+ibm.com/services
+
+Related publications
+
+93
+
+94
+
+SAP HANA on IBM Power Systems Virtual Servers: Hybrid Cloud Solution
+
+Back cover
+
+REDP-5693-00
+ISBN 0738461040
+
+Printed in U.S.A.
+
+ibm.com/redbooks
+
+®
+
+
