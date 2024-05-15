@@ -1,164 +1,21 @@
-﻿Power Virtual Server with VPC landing zone - as PowerVS workspace deployment
-Last reviewed 2024-05-10
-Configure and deploy
-The PowerVS workspace deployment of the Power Virtual Server with VPC landing zone creates VPC services and a Power Virtual Server workspace and interconnects them.
-A proxy service for public internet access from the PowerVS workspace is configured. You can optionally configure some management components on VPC (such as an NFS server, NTP forwarder, and DNS forwarder).
-Figure 1. Single-zone PowerVS workspace accessible over secure landing zone
-Design requirements
-IBM Cloud® Power Virtual Servers (PowerVS) is a public cloud offering that an enterprise can use to establish its own private IBM Power computing environment on shared public cloud infrastructure. PowerVS is logically isolated from all other public cloud tenants and infrastructure components, creating a private, secure place on the public cloud. This deployable architecture provides a framework to build a PowerVS offering according to the best practices and requirements from the IBM Cloud.
-Components
-VPC architecture decisions
-Requirement
-	Component
-	Choice
-	Alternative choice
-	* Ensure public internet connectivity
-* Isolate most virtual instances to not be reachable directly from the public internet
-	Edge VPC service
-	Create a separate VPC service where public internet connectivity is allowed to be configured
-	
+Story
 
-	* Provide infrastructure administration access
-* Limit the number of infrastructure administration entry points to ensure security audit
-	Management VPC service
-	Create a separate VPC service where SSH connectivity from outside is allowed
-	
+The Bible is full of stories about brave and strong women. Have you heard about the beautiful queen Esther?
 
-	* Provide infrastructure for service management components like backup, monitoring, IT service management, shared storage
-* Ensure you can reach all IBM Cloud and on-premises services
-	Workload VPC service
-	Create a separate VPC service as an isolated environment, without direct public internet connectivity and without direct SSH access
-	
+A long time ago, in the Persian Empire, the brave king Ahasuerus was looking for a wife. The king ruled over many lands, including the land of the Hebrew people. One day he saw and fell in love with a Hebrew girl named Esther.
 
-	* Allow customer to choose operating system from two most widely used commercial Linux operating system offerings
-* Support new OS releases
-	Linux operating system
-	Red Hat Enterprise Linux (RHEL)
-	SUSE Linux Enterprise Server(SLES)
-	* Create a virtual server instance that can act as an internet proxy server
-	Proxy server VPC instance
-	Create a Linux VPC instance that can act as a proxy server. Preconfigure ACL and security group rules to allow public internet traffic over proxy that uses default proxy ports (3828)
-	Configure application load balancer to act as proxy server manually
-	* Create a virtual server instance as the only management access point to the landscape
-	Bastion host VPC instance
-	Create a Linux VPC instance that acts as a bastion host. Configure ACL and security group rules to allow SSH connectivity (port 22). Add a public IP address to the VPC instance. Allow connectivity from a restricted and limited number of public IP addresses. Allow connectivity from IP addresses of the Schematics engine nodes
-	
+But Esther had a secret! Nobody knew that she was Hebrew! Many people in the Persian Empire harbored distrust and hatred towards the Hebrews. That is why Esther’s brother, Mordecai, had told her not to tell anybody about her real identity.
 
-	* Create a virtual server instance to host basic management services like DNS, NTP, NFS
-	Management services VPC instance
-	Create a Linux VPC instance that can host management components. Configure ACL and security group rules to allow communication for basic management components.
-	Modify number of virtual server instances and allowed ports in preset or perform the modifications manually
-	* Ensure financial services compliancy for VPC services
-* Perform network setup of all created services
-* Perform network isolation of all created services
-* Ensure all created services are interconnected
-	Secure landing zone components
-	Create a minimum set of required components for a secure landing zone
-	Create a modified set of required components for a secure landing zone in preset
-	PowerVS workspace architecture decisions
-Requirement
-	Component
-	Choice
-	Alternative choice
-	* Connect PowerVS workspace with VPC services
-	Cloud connections
-	Set up two redundant cloud connections
-	
+So, King Ahasuerus and Esther got married and lived a very happy life. But their happiness was short-lived.
 
-	* Configure the network for management of all instances
-* Throughput and latency are not relevant
-	Management network
-	Configure private network with default configurations and attach it to both cloud connections
-	
+One day, the king’s assistant, Haman, made a plan to kill all the Hebrew people. Fortunately, Mordecai discovered the plan on time and sent word to Esther to save her people.
 
-	* Configure separate network for backup purposes with higher data throughput
-	Backup network
-	Configure separate private network with default configurations and attach it to both cloud connections. Networks characteristics might be adapted by the users manually (for example to improve throughput)
-	
+It was a difficult time for the Queen. She knew that if she told the king about her Hebrew heritage, she could lose her life. But it was a risk she was willing to take!
 
-	* Preload OS images relevant for customer workload
-	Preloaded OS images
-	Preload Linux OS images for SAP workload. Keep the number of preloaded images at minimum to save costs.
-	Modify the input parameter that specifies the list of preloaded OS images.
-	* Preload a public SSH key that is injected into every OS deployment
-	Preloaded SSH public key
-	Preload customer specified SSH public key
-	
+So, Queen Esther went to the king and proposed two grand feasts! This made the king very happy. But the night before the feast, the king discovered that long ago, Mordecai had saved his life!
 
-	PowerVS management services architecture decisions
-Requirement
-	Component
-	Choice
-	Alternative choice
-	* Ensure public internet connectivity from all the instances to be deployed in PowerVS workspace
-	SQUID proxy
-	Set up SQUID proxy software on Linux virtual server instance that is running in edge VPC
-	
+Next day, the king rewarded Mordecai. During the feast, Esther, the brave queen, very humbly asked King Ahasuerus to save her and her people. But instead of being angry, the king did just that! He put the evil Haman to death and saved the Hebrew people! All thanks to the brave Queen Esther! This is an interesting old testament Bible story for kids to learn.
 
-	* Provide shared NFS storage that might be directly attached to all the instances to be deployed in PowerVS workspace
-	NFS server
-	Export NFS disk that is attached to Linux virtual server instance that is running in workload VPC. Disk size is specified by the user.
-	Shared NFS storage on VPC is optional.
-	* Provide time synchronization to all instances to be deployed in PowerVS workspace
-	NTP forwarder
-	Synchronize time by using public NTP servers. Set up time synchronization on Linux virtual server instance that is running in workload VPC.
-	By using time synchronization servers directly reachable from PowerVS workspace, NTP forwarder is not required.
-	* Provide a DNS forwarder to a DNS server not directly reachable from PowerVS workspace (for example, running on-premises or in other isolated environment)
-	DNS forwarder
-	Configure DNS forwarder on Linux virtual server instance that is running in workload VPC
-	By using default IBM Cloud DNS service, DNS forwarder is not needed. Direct domain name resolution is possible.
-	Network security architecture decisions
-Requirement
-	Component
-	Choice
-	Alternative choice
-	* Isolate edge VPC and allow only a limited number of network connections
-* All other connections from or to edge VPC are forbidden
-	ACL and security group rules in edge VPC
-	Open following ports by default: 53 (DNS service), 8443 (OS registration), 443 (HTTPS), 80 (HTTP).
-All ports to PowerVS workspace are open.
-All ports to other VPCs are open.
-	More ports might be opened in preset or added manually after deployment
-	* Isolate management VPC and allow only a limited number of network connections
-* All other connections from or to management VPC are forbidden
-	ACL and security group rules in management VPC
-	Open following ports by default: 22 (for limited number of IPs).
-All ports to PowerVS workspace are open.
-All ports to other VPCs are open.
-	More ports might be opened in preset or added manually after deployment
-	* Isolate workload VPC and allow only a limited number of network connections
-* All other connections from or to workload VPC are forbidden
-	ACL and security group rules in workload VPC
-	Open following ports by default: 53 (DNS service).
-All ports to PowerVS workspace are open.
-All ports to other VPCs are open.
-	More ports might be opened in preset or added manually after deployment
-	* Enable floating IP on bastion host to execute deployment
-	Floating IPs on bastion host in management VPC
-	Use floating IP on bastion host from IBM Schematics to complete deployment
-	
+Lesson
 
-	* Preload VPN configuration to simplify VPN setup
-	VPNs
-	VPN configuration is the responsibility of the customer
-	
-
-	Key and password management architecture decisions
-Requirement
-	Component
-	Choice
-	Alternative choice
-	* Use public/private SSH key to access virtual server instances by using SSH
-* Use SSH proxy to log in to all virtual server instances by using the bastion host
-* Do not store private ssh key on any virtual instances, also not on the bastion host
-* Do not allow any other SSH login methods except the one with specified private/public SSH key pair
-	Public SSH key - provided by customer. Private SSH key - provided by customer.
-	Ask customer to specify the keys. Accept the input as secure parameter or as reference to the key stored in IBM Cloud Secure Storage Manager. Do not print SSH keys in any log files. Do not persist private SSH key.
-	
-
-	Compliance
-This reference architecture is certified for SAP deployments.
-Next steps
-Install the SAP on Power deployable architecture on this infrastructure.
-Contribute in GitHub
-Open doc issueEdit topic
+Bravery lies in helping others.
